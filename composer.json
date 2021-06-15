@@ -1,17 +1,17 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "jhumanj/laravel-model-stats",
+    "description": "Model statistics dashboard for your Laravel Application",
     "keywords": [
-        ":vendor_name",
+        "JhumanJ",
         "laravel",
-        "package_slug"
+        "laravel-model-stats"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/jhumanj/laravel-model-stats",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Julien Nahum",
+            "email": "julien@nahum.net",
             "role": "Developer"
         }
     ],
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Jhumanj\\LaravelModelStats\\": "src",
+            "Jhumanj\\LaravelModelStats\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Jhumanj\\LaravelModelStats\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +50,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Jhumanj\\LaravelModelStats\\LaravelModelStatsServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "LaravelModelStats": "Jhumanj\\LaravelModelStats\\LaravelModelStatsFacade"
             }
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Jhumanj\LaravelModelStats\Tests;
 
 class ExampleTest extends TestCase
 {
