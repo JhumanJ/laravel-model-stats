@@ -2,9 +2,9 @@
 
 namespace Jhumanj\LaravelModelStats;
 
+use Jhumanj\LaravelModelStats\Commands\LaravelModelStatsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Jhumanj\LaravelModelStats\Commands\LaravelModelStatsCommand;
 
 class LaravelModelStatsServiceProvider extends PackageServiceProvider
 {
