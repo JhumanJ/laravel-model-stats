@@ -5,6 +5,7 @@ namespace Jhumanj\LaravelModelStats;
 
 use Illuminate\Support\Facades\Route;
 use Jhumanj\LaravelModelStats\Console\InstallModelStatsPackage;
+use Jhumanj\LaravelModelStats\Console\PublishCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -50,6 +51,10 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
             $this->publishes([
                 __DIR__ . '/../stubs/ModelStatsServiceProvider.stub' => app_path('Providers/ModelStatsServiceProvider.php'),
             ], 'model-stats-provider');
+
+            $this->publishes([
+                __DIR__.'/../public' => public_path('vendor/model-stats'),
+            ], 'model-stats-assets');
         }
     }
 
@@ -63,6 +68,7 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallModelStatsPackage::class,
+                PublishCommand::class
             ]);
         }
     }

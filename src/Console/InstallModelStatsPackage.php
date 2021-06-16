@@ -15,13 +15,16 @@ class InstallModelStatsPackage extends Command
 
     public function handle()
     {
-        $this->info('Installing BlogPackage...');
+        $this->info('Installing ModelStats package...');
 
         $this->comment('Publishing ModelStats Service Provider...');
         $this->callSilent('vendor:publish', ['--tag' => 'model-stats-provider']);
 
         $this->comment('Publishing ModelStats Configuration...');
         $this->callSilent('vendor:publish', ['--tag' => 'model-stats-config']);
+
+        $this->comment('Publishing Telescope Assets...');
+        $this->callSilent('vendor:publish', ['--tag' => 'model-stats-assets']);
 
         $this->registerModelStatsServiceProvider();
 
