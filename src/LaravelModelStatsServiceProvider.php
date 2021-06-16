@@ -2,7 +2,6 @@
 
 namespace Jhumanj\LaravelModelStats;
 
-
 use Illuminate\Support\Facades\Route;
 use Jhumanj\LaravelModelStats\Console\InstallModelStatsPackage;
 use Spatie\LaravelPackageTools\Package;
