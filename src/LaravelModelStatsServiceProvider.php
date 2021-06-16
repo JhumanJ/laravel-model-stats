@@ -2,11 +2,11 @@
 
 namespace Jhumanj\LaravelModelStats;
 
+
 use Illuminate\Support\Facades\Route;
 use Jhumanj\LaravelModelStats\Console\InstallModelStatsPackage;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Jhumanj\LaravelModelStats\Commands\LaravelModelStatsCommand;
 
 class LaravelModelStatsServiceProvider extends PackageServiceProvider
 {
