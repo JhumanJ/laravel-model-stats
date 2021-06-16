@@ -2,12 +2,28 @@
 
 namespace Jhumanj\LaravelModelStats;
 
+use Illuminate\Support\Facades\Route;
+use Jhumanj\LaravelModelStats\Console\InstallModelStatsPackage;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Jhumanj\LaravelModelStats\Commands\LaravelModelStatsCommand;
 
 class LaravelModelStatsServiceProvider extends PackageServiceProvider
 {
+    public function boot()
+    {
+        $this->registerPublishing();
+        $this->registerCommands();
+
+        if (! config('model-stats.enabled')) {
+            return;
+        }
+
+        Route::middlewareGroup('model-stats', config('model-stats.middleware', []));
+
+        return parent::boot();
+    }
+
     public function configurePackage(Package $package): void
     {
         /*
@@ -19,7 +35,35 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
             ->name('laravel-model-stats')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_laravel-model-stats_table')
-            ->hasCommand(LaravelModelStatsCommand::class);
+            ->hasRoutes(['web'])
+            ->hasMigration('create_laravel-model-stats_table');
+    }
+
+    /**
+     * Register the package's publishable resources.
+     *
+     * @return void
+     */
+    private function registerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../stubs/ModelStatsServiceProvider.stub' => app_path('Providers/ModelStatsServiceProvider.php'),
+            ], 'model-stats-provider');
+        }
+    }
+
+    /**
+     * Register the package's commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallModelStatsPackage::class,
+            ]);
+        }
     }
 }
