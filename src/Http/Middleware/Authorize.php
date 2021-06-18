@@ -3,7 +3,6 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Middleware;
 
-
 use Jhumanj\LaravelModelStats\LaravelModelStats;
 
 class Authorize

@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\File;
 
 class StatController extends Controller
 {
-    public function dashboard() {
+    public function dashboard()
+    {
         return $this->getModels();
     }
 
@@ -18,9 +19,11 @@ class StatController extends Controller
         $models = collect(File::allFiles(app_path()))
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
-                $class = sprintf('\%s%s',
+                $class = sprintf(
+                    '\%s%s',
                     Container::getInstance()->getNamespace(),
-                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
+                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
+                );
 
                 return $class;
             })
@@ -30,7 +33,7 @@ class StatController extends Controller
                 if (class_exists($class)) {
                     $reflection = new \ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class) &&
-                        !$reflection->isAbstract();
+                        ! $reflection->isAbstract();
                 }
 
                 return $valid;

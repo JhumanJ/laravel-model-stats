@@ -3,7 +3,6 @@
 
 namespace Jhumanj\LaravelModelStats\Console;
 
-
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -36,7 +35,8 @@ class InstallModelStatsPackage extends Command
      *
      * @return void
      */
-    private function registerModelStatsServiceProvider() {
+    private function registerModelStatsServiceProvider()
+    {
         $namespace = Str::replaceLast('\\', '', $this->laravel->getNamespace());
 
         $appConfig = file_get_contents(config_path('app.php'));
@@ -65,5 +65,4 @@ class InstallModelStatsPackage extends Command
             file_get_contents(app_path('Providers/ModelStatsServiceProvider.php'))
         ));
     }
-
 }

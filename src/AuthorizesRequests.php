@@ -3,7 +3,6 @@
 
 namespace Jhumanj\LaravelModelStats;
 
-
 trait AuthorizesRequests
 {
     /**
