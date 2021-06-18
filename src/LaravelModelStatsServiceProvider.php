@@ -67,7 +67,7 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallModelStatsPackage::class,
-                PublishCommand::class
+                PublishCommand::class,
             ]);
         }
     }

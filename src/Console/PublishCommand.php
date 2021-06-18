@@ -3,9 +3,7 @@
 
 namespace Jhumanj\LaravelModelStats\Console;
 
-
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
 class PublishCommand extends Command
 {
@@ -25,5 +23,4 @@ class PublishCommand extends Command
             '--force' => true,
         ]);
     }
-
 }

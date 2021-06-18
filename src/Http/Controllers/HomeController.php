@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
         return view('model-stats::dashboard', [
             'config' => $this->modelStatsConfig(),
-            'models' => $this->getModels()
+            'models' => $this->getModels(),
         ]);
     }
 
@@ -21,7 +21,7 @@ class HomeController extends Controller
     {
         return [
             'appName' => config('app.name'),
-            'path' => config('model-stats.routes_prefix')
+            'path' => config('model-stats.routes_prefix'),
         ];
     }
 
@@ -30,9 +30,11 @@ class HomeController extends Controller
         $models = collect(File::allFiles(app_path()))
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
-                $class = sprintf('\%s%s',
+                $class = sprintf(
+                    '\%s%s',
                     Container::getInstance()->getNamespace(),
-                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
+                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
+                );
 
                 return $class;
             })
@@ -42,22 +44,23 @@ class HomeController extends Controller
                 if (class_exists($class)) {
                     $reflection = new \ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class) &&
-                        !$reflection->isAbstract();
+                        ! $reflection->isAbstract();
                 }
 
                 return $valid;
             });
 
 
-        return $models->map(function(string $class) {
+        return $models->map(function (string $class) {
             return [
                 'class' => $class,
-                'fields' => $this->getClassFields($class)
+                'fields' => $this->getClassFields($class),
             ];
         })->sortByDesc('class')->values();
     }
 
-    private function getClassFields(string $class) {
+    private function getClassFields(string $class)
+    {
         return \Schema::getColumnListing((new $class)->getTable());
     }
 }
