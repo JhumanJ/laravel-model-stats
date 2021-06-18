@@ -2,28 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-#model-stats {
-   @apply min-h-screen bg-gray-50
-}
+#model-stats-app {
+   @apply min-h-screen bg-gray-50;
 
-@layer base {
-  p, div {
-    @apply text-gray-800;
-  }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-black;
-  }
+    @layer base {
+        p, div {
+            @apply text-gray-500 font-light;
+        }
 
-  h1 {
-    @apply text-3xl sm:text-4xl font-bold;
-  }
+        h1, h2, h3, h4, h5, h6 {
+            @apply text-gray-800;
+        }
 
-  h2 {
-    @apply text-3xl font-bold;
-  }
+        h1 {
+            @apply text-3xl sm:text-4xl font-bold;
+        }
 
-  a {
-    @apply text-blue-500 hover:underline;
-  }
+        h2 {
+            @apply text-3xl font-bold;
+        }
+
+        a {
+            @apply text-blue-500 hover:underline;
+        }
+    }
 }

@@ -2,20 +2,21 @@
   <div id="model-stats-app">
     <loading ref="loading" />
 
-    <transition name="page" mode="out-in">
+    <layout>
         <router-view />
-    </transition>
+    </layout>
   </div>
 </template>
 
 <script>
 import Loading from './Loading'
+import Layout from './Layout'
 
 export default {
   el: '#model-stats',
 
   components: {
-    Loading
+    Loading, Layout
   },
 
   data: () => ({

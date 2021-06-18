@@ -26,8 +26,7 @@
 
     <div class="max-w-2xl mx-auto mb-5">
         <div class="flex items-center py-4">
-
-            <h4 class="mb-0 ml-3"><strong>Laravel</strong> ModelStats{{ config('app.name') ? ' - ' . config('app.name') : '' }}</h4>
+            <h1 class="mb-0 ml-3 font-medium text-2xl">ModelStats{{ config('app.name') ? ' - ' . config('app.name') : '' }}</h1>
         </div>
 
         <div class="flex w-full mt-4">
@@ -37,11 +36,13 @@
         </div>
     </div>
 </div>
-f
-{{--<!-- Global Telescope Object -->--}}
-{{--<script>--}}
-{{--    window.Telescope = @json($telescopeScriptVariables);--}}
-{{--</script>--}}
+<!-- Global ModelStats Object -->
+<script>
+    window.ModelStats = {
+        config: @json($config),
+        models: @json($models)
+    }
+</script>
 
 <script src="{{ asset(mix('app.js', 'vendor/model-stats')) }}"></script>
 </body>

@@ -1,9 +1,10 @@
-function view (path) {
-  return () => import(/* webpackChunkName: '' */ `../views/${path}`).then(m => m.default || m)
-}
-
 export default [
-  { path: '/', name: 'welcome', component: view('welcome.vue') },
+    { path: '/', name: 'welcome', component: require('@/views/dashboard.vue').default },
+    {
+        path: '/widgets/create',
+        name: 'widgets.create',
+        component: require('@/views/widgets/create.vue').default
+    },
 
-  { path: '*', component: view('errors/404.vue') }
+    { path: '*', component: require('@/views/errors/404.vue').default }
 ]
