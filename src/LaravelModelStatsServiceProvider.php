@@ -15,28 +15,31 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
         $this->registerPublishing();
         $this->registerCommands();
 
-        if (! config('model-stats.enabled')) {
-            return;
-        }
-
-        Route::middlewareGroup('model-stats', config('model-stats.middleware', []));
-
         return parent::boot();
     }
 
     public function configurePackage(Package $package): void
     {
         /*
-         * This class is a Package Service Provider
+         * This class is a Package Services Provider
          *
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
             ->name('laravel-model-stats')
-            ->hasConfigFile()
+            ->hasConfigFile();
+
+        if (! config('model-stats.enabled')) {
+            return;
+        }
+
+        $this->loadMigrations();
+
+        Route::middlewareGroup('model-stats', config('model-stats.middleware', []));
+
+        $package
             ->hasViews()
-            ->hasRoutes(['web'])
-            ->hasMigration('create_laravel-model-stats_table');
+            ->hasRoutes(['web']);
     }
 
     /**
@@ -70,5 +73,12 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
                 PublishCommand::class,
             ]);
         }
+    }
+
+    /**
+     * Load the package's migrations
+     */
+    protected function loadMigrations() {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

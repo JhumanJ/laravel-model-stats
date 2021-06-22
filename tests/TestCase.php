@@ -3,6 +3,7 @@
 namespace Jhumanj\LaravelModelStats\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Jhumanj\LaravelModelStats\LaravelModelStatsServiceProvider;
 use Jhumanj\LaravelModelStats\ModelStatsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -20,7 +21,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            ModelStatsServiceProvider::class,
+            LaravelModelStatsServiceProvider::class,
         ];
     }
 

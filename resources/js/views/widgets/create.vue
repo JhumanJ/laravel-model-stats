@@ -9,11 +9,12 @@
         </router-link>
         <div class="flex flex-col bg-white shadow-md p-6">
             <h2 class="text-xl font-medium mb-2">Create a Widget</h2>
+            <text-input :form="form"
+                        class="mt-2"
+                        name="title"
+                        label="title"
+                        :required="true"/>
             <model-input :form="form" name="model" label="Model" @input="modelSelected" :required="true"/>
-            <!--     TODO: widget type selection       -->
-            <!--     Select date field       -->
-            <!--     Select aggregate type: daily count, daily average       -->
-            <!--     Select aggregate column        -->
             <select-input :form="form"
                           class="mt-2"
                           name="aggregate_type"
@@ -28,14 +29,23 @@
                               label="Date Column"
                               :required="true"
                               :options="modelColumnOptions"/>
+                <select-input :form="form"
+                              class="mt-2"
+                              name="graph_color"
+                              label="Graph Color"
+                              :required="true"
+                              :options="colorOptions"/>
                 <select-input
-                    v-if="aggregate_type && aggregate_type.requires_agg_column"
+                    v-if="aggregateType && aggregateType.requires_agg_column"
                     :form="form"
                     class="mt-2"
                     name="aggregate_column"
                     label="Aggregate Field"
                     :required="true"
                     :options="modelColumnOptions"/>
+                <v-button class="mt-4" @click="createWidget">
+                    Create Widget
+                </v-button>
             </template>
         </div>
     </div>
@@ -44,31 +54,34 @@
 <script>
 import Form from 'vform'
 import ModelInput from '@/components/forms/model-stats/ModelInput'
+import TextInput from "../../components/forms/TextInput";
 
 export default {
     name: 'WidgetCreate',
-    components: { ModelInput },
-    data () {
+    components: {TextInput, ModelInput},
+    data() {
         return {
             form: new Form({
+                id: null,
                 model: null,
                 aggregate_type: null,
                 date_column: null,
-                aggregate_column: null
+                aggregate_column: null,
+                graph_color: '#60A5FA'
             }),
         }
     },
     computed: {
-        modelAndTypeSelected () {
+        modelAndTypeSelected() {
             return this.form.model !== null && this.form.aggregate_type !== null
         },
-        modelColumns () {
+        modelColumns() {
             if (!this.form.model) return []
             return window.ModelStats.models.find((model) => {
                 return model.class === this.form.model.value
             }).fields
         },
-        modelColumnOptions () {
+        modelColumnOptions() {
             return this.modelColumns.map((field) => {
                 return {
                     name: field,
@@ -76,38 +89,104 @@ export default {
                 }
             })
         },
-        aggregateType () {
+        aggregateType() {
             if (this.form.aggregate_type == null) return null
             return this.aggregateTypes.find((type) => {
                 return type.value === this.form.aggregate_type
             })
         },
-        aggregateTypes () {
+        aggregateTypes() {
             return [
                 {
                     value: 'daily_count',
                     name: 'Daily Count',
                     requires_agg_column: false
                 },
+                // {
+                //     value: 'daily_avg',
+                //     name: 'Daily Average',
+                //     requires_agg_column: true
+                // }
+            ]
+        },
+        colorOptions() {
+            return [
                 {
-                    value: 'daily_avg',
-                    name: 'Daily Average',
-                    requires_agg_column: true
+                    name: 'Red',
+                    value: '#EF4444'
+                },
+                {
+                    name: 'Yellow',
+                    value: '#FCD34D'
+                },
+                {
+                    name: 'Orange',
+                    value: '#F59E0B'
+                },
+                {
+                    name: 'Green',
+                    value: '#34D399'
+                },
+                {
+                    name: 'Blue',
+                    value: '#60A5FA'
+                },
+                {
+                    name: 'Purple',
+                    value: '#8B5CF6'
+                },
+                {
+                    name: 'Pink',
+                    value: '#F472B6'
                 }
             ]
         }
-    },
+     },
     methods: {
-        modelSelected () {
-            console.log(this.form.model)
+        modelSelected() {
             if (this.form.model) {
-                console.log(this.modelColumns, this.modelColumns.includes('created_at'))
                 if (this.modelColumns.includes('created_at')) {
                     this.form.date_column = 'created_at'
                 } else if (this.modelColumns.includes('updated_at')) {
                     this.form.date_column = 'updated_at'
                 }
             }
+        },
+        createWidget() {
+            if (this.formIsValid()) {
+                // this.form.post()
+                if (this.form.id === null) this.form.id = this.generateWidgetHash()
+                this.$store.commit('widgets/addOrUpdate', this.form.data())
+                this.alertSuccess('Widget was created.', true)
+                this.$router.push({name: 'welcome'})
+            }
+        },
+        formIsValid() {
+            if (!this.form.title) {
+                this.form.errors.set('title', 'Please select a title.')
+                return false
+            }
+            if (!this.form.model) {
+                this.form.errors.set('model', 'Please select a model.')
+                return false
+            }
+            if (!this.form.aggregate_type) {
+                this.form.errors.set('aggregate_type', 'Please select an aggregate type.')
+                return false
+            }
+            if (!this.form.date_column) {
+                this.form.errors.set('model', 'Please select the date column.')
+                return false
+            }
+            return true
+        },
+        /**
+         * Generate a unique hash id for the widget
+         */
+        generateWidgetHash() {
+            let s = JSON.stringify(this.form) + Date.now().toString()
+            return s.split('').reduce((prevHash, currVal) =>
+                (((prevHash << 5) - prevHash) + currVal.charCodeAt(0)) | 0, 0);
         }
     }
 }

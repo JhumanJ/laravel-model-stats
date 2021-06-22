@@ -5,7 +5,11 @@ import moment from 'moment-timezone';
  * Base mixin for all Vue components
  */
 export default {
-    computed: {},
+    computed: {
+        apiPath() {
+            return '/' + window.ModelStats.config.path + '/api/';
+        }
+    },
 
     methods: {
         /**

@@ -2,43 +2,25 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Jhumanj\LaravelModelStats\Http\Requests\Widgets\DataRequest;
+use Jhumanj\LaravelModelStats\Services\ModelStats;
 
 class StatController extends Controller
 {
-    public function dashboard()
+    public function widgetData(DataRequest $request)
     {
-        return $this->getModels();
-    }
+        $modelStats = new ModelStats($request->model);
+        $dateFrom = Carbon::createFromFormat('Y-m-d', $request->date_from);
+        $dateTo = Carbon::createFromFormat('Y-m-d', $request->date_to);
 
-    private function getModels(): Collection
-    {
-        $models = collect(File::allFiles(app_path()))
-            ->map(function ($item) {
-                $path = $item->getRelativePathName();
-                $class = sprintf(
-                    '\%s%s',
-                    Container::getInstance()->getNamespace(),
-                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
-                );
-
-                return $class;
-            })
-            ->filter(function ($class) {
-                $valid = false;
-
-                if (class_exists($class)) {
-                    $reflection = new \ReflectionClass($class);
-                    $valid = $reflection->isSubclassOf(Model::class) &&
-                        ! $reflection->isAbstract();
-                }
-
-                return $valid;
-            });
-
-        return $models->values();
+        switch ($request->aggregate_type){
+            case 'daily_count':
+                return $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column);
+        }
     }
 }

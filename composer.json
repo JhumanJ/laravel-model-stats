@@ -50,11 +50,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ModelStatsServiceProvider"
-            ],
-            "aliases": {
-                "LaravelModelStats": "Jhumanj\\LaravelModelStats\\LaravelModelStatsFacade"
-            }
+                "Jhumanj\\LaravelModelStats\\LaravelModelStatsServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",

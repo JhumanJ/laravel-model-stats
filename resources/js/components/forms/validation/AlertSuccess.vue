@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-if="form.successful" class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 relative rounded-lg"
+    <div v-if="form.successful" class="bg-green-200 border-green-600 text-green-600 border-l-4 p-4 relative"
          role="alert">
       <button v-if="dismissible"
               type="button"

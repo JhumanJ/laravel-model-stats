@@ -1,11 +1,13 @@
 <template>
-    <div id="model-stats-layout" class="max-w-2xl mx-auto mb-5">
+    <div id="model-stats-layout" class="max-w-4xl mx-auto mb-5">
         <div class="flex items-center py-4">
-            <h1 class="mb-0 ml-3 font-medium text-2xl">ModelStats {{appName}}</h1>
+            <h1 class="mb-0 ml-3 font-medium text-2xl hover:font-black">
+                <router-link :to="{name:'welcome'}" class="text-gray-900 hover:text-blue-500">
+                ModelStats {{ appName }}
+                </router-link>
+            </h1>
         </div>
-        <transition name="page" mode="out-in">
-            <slot/>
-        </transition>
+        <slot/>
     </div>
 </template>
 
@@ -16,13 +18,13 @@ export default {
 
     data: () => ({}),
 
-    mounted () {
+    mounted() {
     },
 
     methods: {},
 
     computed: {
-        appName () {
+        appName() {
             return window.ModelStats.config.appName ? ' - ' + window.ModelStats.config.appName : ''
         }
     }
