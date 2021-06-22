@@ -15,10 +15,10 @@ class Dashboard extends Model
     protected $fillable = [
         'name',
         'description',
-        'body'
+        'body',
     ];
 
     protected $casts = [
-        'body' => 'array'
+        'body' => 'array',
     ];
 }

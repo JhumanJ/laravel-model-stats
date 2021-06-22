@@ -26,14 +26,16 @@ class DashboardController extends Controller
     public function update(Dashboard $dashboard, UpdateRequest $request)
     {
         $dashboard->update($request->validated());
+
         return $dashboard;
     }
 
-    public function destroy(Dashboard $dashboard) {
+    public function destroy(Dashboard $dashboard)
+    {
         $dashboard->delete();
+
         return $this->success([
-           'message' => 'Dashboard deleted'
+           'message' => 'Dashboard deleted',
         ]);
     }
-
 }

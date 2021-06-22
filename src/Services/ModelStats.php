@@ -3,12 +3,10 @@
 namespace Jhumanj\LaravelModelStats\Services;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class ModelStats
 {
-
     public $class;
 
     public function __construct($class)
@@ -32,10 +30,10 @@ class ModelStats
             });
         }
 
-        $data = $dataQuery->select(array(
+        $data = $dataQuery->select([
             DB::raw('DATE('.$dateFieldName.') as date'),
-            DB::raw('COUNT(*) as "count"')
-        ))->get()->pluck("count", "date");
+            DB::raw('COUNT(*) as "count"'),
+        ])->get()->pluck("count", "date");
 
         return self::fillMissingDays($data, $from, $to);
     }
@@ -49,11 +47,11 @@ class ModelStats
 
         foreach (array_reverse(range(0, $daysSince)) as $number) {
             $dateKey = Carbon::now()->subDays($number)->format('Y-m-d');
-            if (!isset($data[$dateKey])) {
+            if (! isset($data[$dateKey])) {
                 $data[$dateKey] = $defaultValue;
             }
         }
+
         return $data;
     }
-
 }
