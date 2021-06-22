@@ -78,7 +78,8 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
     /**
      * Load the package's migrations
      */
-    protected function loadMigrations() {
+    protected function loadMigrations()
+    {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

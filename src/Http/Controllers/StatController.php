@@ -3,10 +3,6 @@
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Container\Container;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 use Jhumanj\LaravelModelStats\Http\Requests\Widgets\DataRequest;
 use Jhumanj\LaravelModelStats\Services\ModelStats;
 
@@ -18,7 +14,7 @@ class StatController extends Controller
         $dateFrom = Carbon::createFromFormat('Y-m-d', $request->date_from);
         $dateTo = Carbon::createFromFormat('Y-m-d', $request->date_to);
 
-        switch ($request->aggregate_type){
+        switch ($request->aggregate_type) {
             case 'daily_count':
                 return $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column);
         }

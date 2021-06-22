@@ -3,7 +3,6 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Requests\Widgets;
 
-
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
