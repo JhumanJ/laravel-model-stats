@@ -92,6 +92,7 @@ export default {
         },
         saveDashboard() {
             const dashboard = this.dashboard;
+            if (!dashboard.body) dashboard.body = {}
             dashboard.body.widgets = this.widgets;
 
             this.$store.commit('dashboards/loads')

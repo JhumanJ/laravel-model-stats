@@ -6,7 +6,11 @@ module.exports = {
             './resources/**/*.js',
             './resources/**/*.vue'
         ],
-        options: {}
+        options: {
+            safelist: {
+                standard: [/.*(bg|border)-(blue|gray|red|green).*/]
+            }
+        }
     },
     darkMode: 'media', // or 'media' or 'class'
     theme: {
