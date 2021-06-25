@@ -46,7 +46,7 @@
                         <dashboard-date-range/>
                     </div>
                 </div>
-                <widget-list :widgets="widgets"/>
+                <widget-list class="mt-5" :widgets="widgets"/>
             </template>
         </div>
 
@@ -97,8 +97,9 @@ export default {
 
             this.$store.commit('dashboards/loads')
             axios.put(this.apiPath + 'dashboards/' + dashboard.id, dashboard).then((response) => {
-                this.$store.commit('dashboards/addOrUpdate', response.data)
                 this.$store.commit('dashboards/stoppedLoading')
+                // No need to refresh store data as we don't have any back-end transformations yet
+                this.$store.commit('dashboards/addOrUpdate', response.data)
                 this.$store.commit('widgets/set', this.dashboard.body.widgets)
                 this.alertSuccess('Dashboard was successfully saved.')
             })

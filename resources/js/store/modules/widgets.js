@@ -23,12 +23,26 @@ export const getters = {
 // mutations
 export const mutations = {
     set(state, items) {
+        items.map((item) => {
+            return item
+        })
         state.content = items
         if (state.currentId === null && items.length) state.currentId = items[0].id
     },
     addOrUpdate(state, item) {
         state.content = state.content.filter((val) => val.id !== item.id)
-        state.content.push(item)
+        // Set initial position
+        const widget = {...item}
+        if (!widget.position) {
+            widget.position = {
+                x: (state.content.length * 3) % 6,
+                y: state.content.length * 6, // puts it at the bottom
+                w: 3,
+                h: 4,
+                i: widget.id
+            }
+        }
+        state.content.push(widget)
         if (state.currentId === null && state.content.length) state.currentId = state.content[0].id
     },
     remove(state, item) {

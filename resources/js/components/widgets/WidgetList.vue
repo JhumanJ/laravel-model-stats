@@ -1,15 +1,44 @@
 <template>
-    <div id="widgets" class="w-full mt-5 flex flex-wrap">
-        <component v-for="widget in widgets" :key="widget.id" :is="typeToComponent[widget.aggregate_type]" :widget="widget"/>
-    </div>
+
+        <grid-layout
+            id="widgets"
+            class="w-full"
+            v-if="gridLayout && gridLayout.length"
+            :layout.sync="gridLayout"
+            :responsive="true"
+            :is-draggable="true"
+            :is-resizable="true"
+            :vertical-compact="true"
+            :use-css-transforms="true"
+            @layout-updated="layoutUpdated"
+        >
+            <grid-item  v-for="widget in gridLayout"
+                       :x="widget.x"
+                       :y="widget.y"
+                       :w="widget.w"
+                       :h="widget.h"
+                        :i="widget.id"
+                       :key="widget.id">
+                <component class="w-full h-full"
+                           @delete="deleteWidget(widget)"
+                           :is="typeToComponent[widget.aggregate_type]"
+                           :widget="widget"/>
+            </grid-item>
+        </grid-layout>
 </template>
 
 <script>
 import DailyCount from "./components/DailyCount";
+import VueGridLayout from 'vue-grid-layout';
+import clone from 'lodash/clone'
 
 export default {
     name: 'WidgetList',
-    components: {DailyCount},
+    components: {
+        DailyCount: DailyCount,
+        GridLayout: VueGridLayout.GridLayout,
+        GridItem: VueGridLayout.GridItem
+    },
 
     props: {
         widgets: {type:Array, required:true}
@@ -19,16 +48,47 @@ export default {
         typeToComponent: {
             'daily_count': 'daily-count'
         },
+        gridLayout: []
     }),
 
     mounted () {
+        this.initLayout()
     },
 
-    methods: {},
-
-    computed: {
-        appName () {
+    methods: {
+        initLayout() {
+            this.gridLayout = clone(this.widgets).map((widget)=>{
+                return {...widget.position, ...widget }
+            })
+        },
+        layoutUpdated() {
+            const widgets = this.gridLayout.map((widget)=>{
+                const wid = clone(widget)
+                wid.position = {
+                    x: wid.x,
+                    y: wid.y,
+                    w: wid.w,
+                    h: wid.h,
+                    i: wid.i
+                }
+                delete wid.x
+                delete wid.y
+                delete wid.w
+                delete wid.h
+                delete wid.i
+                return wid
+            })
+            this.$store.commit('widgets/set', widgets)
+        },
+        deleteWidget(widget){
+            this.gridLayout = this.gridLayout.filter((wid)=>{
+                return widget.id !== wid.id
+            })
+            this.$store.commit('widgets/remove', widget)
         }
-    }
+    },
+
+    computed: {},
+    watch: {}
 }
 </script>

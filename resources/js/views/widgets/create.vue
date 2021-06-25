@@ -103,9 +103,19 @@ export default {
                     requires_agg_column: false
                 },
                 // {
-                //     value: 'daily_avg',
-                //     name: 'Daily Average',
-                //     requires_agg_column: true
+                //     value: 'period_total',
+                //     name: 'Period Total Count',
+                //     requires_agg_column: false
+                // },
+                // {
+                //     value: '7_days_total',
+                //     name: '7 Days Total Count',
+                //     requires_agg_column: false
+                // },
+                // {
+                //     value: '30_days_total',
+                //     name: '30 Days Total Count',
+                //     requires_agg_column: false
                 // }
             ]
         },

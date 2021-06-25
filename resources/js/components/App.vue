@@ -33,6 +33,7 @@ export default {
     },
 
     data: () => ({
+        frontEndVersion: 1,
         alert: {
             type: null,
             autoClose: 0,
@@ -45,6 +46,11 @@ export default {
     mounted() {
         this.$loading = this.$refs.loading
         this.loadDashboards()
+
+        // Check front-end version
+        if (window.ModelStats.config.frontEndVersion > this.frontEndVersion) {
+            this.alertError('You ModelStats front-end files are not up to date. Please run ` php artisan model-stats:publish` on your server.')
+        }
     },
 
     computed: {

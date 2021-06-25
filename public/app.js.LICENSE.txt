@@ -17,6 +17,8 @@
  * @license MIT
  */
 
+/*! vue-grid-layout - 2.3.12 | (c) 2015, 2021  Gustavo Santos (JBay Solutions) <gustavo.santos@jbaysolutions.com> (http://www.jbaysolutions.com) | https://github.com/jbaysolutions/vue-grid-layout */
+
 /**
  * @license
  * Lodash <https://lodash.com/>
