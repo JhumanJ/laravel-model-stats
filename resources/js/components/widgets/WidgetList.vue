@@ -10,6 +10,7 @@
             :is-resizable="true"
             :vertical-compact="true"
             :use-css-transforms="true"
+            :rowHeight="100"
             @layout-updated="layoutUpdated"
         >
             <grid-item  v-for="widget in gridLayout"

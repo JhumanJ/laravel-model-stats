@@ -22,7 +22,7 @@ class HomeController extends Controller
         return [
             'appName' => config('app.name'),
             'path' => config('model-stats.routes_prefix'),
-            'frontEndVersion' => 1
+            'frontEndVersion' => 2
         ];
     }
 
