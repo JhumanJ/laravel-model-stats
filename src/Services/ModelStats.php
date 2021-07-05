@@ -43,7 +43,7 @@ class ModelStats
 
         $cumulatedSum = null;
         if ($cumulated) {
-            $cumulatedSum = $this->class::where($dateFieldName, '>=', $from->copy()->startOfDay())->count();
+            $cumulatedSum = $this->class::where($dateFieldName, '<=', $from->copy()->startOfDay())->count();
         }
 
         return self::fillMissingDays($data, $from, $to, 0, $cumulatedSum);
@@ -81,12 +81,12 @@ class ModelStats
         $daysSince = $since->diffInDays($to);
 
         foreach (array_reverse(range(0, $daysSince)) as $number) {
-            $dateKey = Carbon::now()->subDays($number)->format('Y-m-d');
+            $dateKey = $to->copy()->subDays($number)->format('Y-m-d');
             if (! isset($data[$dateKey])) {
                 $data[$dateKey] = $defaultValue;
             }
 
-            if ($cumulatedSum != null) {
+            if (! is_null($cumulatedSum) ) {
                 $data[$dateKey] += $cumulatedSum;
                 $cumulatedSum = $data[$dateKey];
             }
