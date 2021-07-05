@@ -15,7 +15,7 @@ class DataRequest extends FormRequest
     const ALLOWED_AGGREGATES_TYPES = [
         'daily_count',
         'cumulated_daily_count',
-        'period_total'
+        'period_total',
     ];
 
     /**

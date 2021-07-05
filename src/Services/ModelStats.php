@@ -67,7 +67,7 @@ class ModelStats
 
         return [
             'current_period' => $periodCount,
-            'previous_period' => $previousPeriodCount
+            'previous_period' => $previousPeriodCount,
         ];
     }
 
@@ -82,7 +82,7 @@ class ModelStats
 
         foreach (array_reverse(range(0, $daysSince)) as $number) {
             $dateKey = Carbon::now()->subDays($number)->format('Y-m-d');
-            if (!isset($data[$dateKey])) {
+            if (! isset($data[$dateKey])) {
                 $data[$dateKey] = $defaultValue;
             }
 
