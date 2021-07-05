@@ -1,3 +1,7 @@
+
+const graphColors = ['blue','gray','red','green','yellow','purple','pink']
+const alertColors = ['green','red','blue','gray']
+
 module.exports = {
     important: true,
     purge: {
@@ -6,11 +10,10 @@ module.exports = {
             './resources/**/*.js',
             './resources/**/*.vue'
         ],
-        options: {
-            safelist: {
-                standard: [/.*(bg|border)-(blue|gray|red|green).*/]
-            }
-        }
+        safelist: [
+            ...alertColors.map((color)=>['bg-'+color+'-100', 'border-'+color+'-500']).flat(), // Alerts
+            ...graphColors.map((color) => 'to-'+color+'-100') // Gradients widgets
+        ]
     },
     darkMode: 'media', // or 'media' or 'class'
     theme: {

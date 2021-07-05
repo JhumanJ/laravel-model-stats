@@ -89,6 +89,7 @@ export default {
     methods: {
         changeDashboard(selection) {
             this.$store.commit('dashboards/setCurrentId', selection.value)
+            this.$store.commit('widgets/set', this.dashboard.body.widgets)
         },
         saveDashboard() {
             const dashboard = this.dashboard;
