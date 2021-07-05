@@ -12,7 +12,11 @@ use Illuminate\Validation\Rule;
 
 class DataRequest extends FormRequest
 {
-    const ALLOWED_AGGREGATES_TYPES = ['daily_count'];
+    const ALLOWED_AGGREGATES_TYPES = [
+        'daily_count',
+        'cumulated_daily_count',
+        'period_total'
+    ];
 
     /**
      * Get the validation rules that apply to the request.

@@ -30,12 +30,14 @@
 
 <script>
 import DailyCount from "./components/DailyCount";
+import PeriodTotal from "./components/PeriodTotal";
 import VueGridLayout from 'vue-grid-layout';
 import clone from 'lodash/clone'
 
 export default {
     name: 'WidgetList',
     components: {
+        PeriodTotal: PeriodTotal,
         DailyCount: DailyCount,
         GridLayout: VueGridLayout.GridLayout,
         GridItem: VueGridLayout.GridItem
@@ -47,7 +49,9 @@ export default {
 
     data: () => ({
         typeToComponent: {
-            'daily_count': 'daily-count'
+            'daily_count': 'daily-count',
+            'cumulated_daily_count': 'daily-count',
+            'period_total': 'period-total'
         },
         gridLayout: []
     }),

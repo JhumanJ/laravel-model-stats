@@ -55,6 +55,7 @@
 import Form from 'vform'
 import ModelInput from '@/components/forms/model-stats/ModelInput'
 import TextInput from "../../components/forms/TextInput";
+import colors from "../../data/colors";
 
 export default {
     name: 'WidgetCreate',
@@ -102,54 +103,20 @@ export default {
                     name: 'Daily Count',
                     requires_agg_column: false
                 },
-                // {
-                //     value: 'period_total',
-                //     name: 'Period Total Count',
-                //     requires_agg_column: false
-                // },
-                // {
-                //     value: '7_days_total',
-                //     name: '7 Days Total Count',
-                //     requires_agg_column: false
-                // },
-                // {
-                //     value: '30_days_total',
-                //     name: '30 Days Total Count',
-                //     requires_agg_column: false
-                // }
+                {
+                    value: 'cumulated_daily_count',
+                    name: 'Cumulated Daily Count',
+                    requires_agg_column: false
+                },
+                {
+                    value: 'period_total',
+                    name: 'Period Total Count',
+                    requires_agg_column: false
+                },
             ]
         },
         colorOptions() {
-            return [
-                {
-                    name: 'Red',
-                    value: '#EF4444'
-                },
-                {
-                    name: 'Yellow',
-                    value: '#FCD34D'
-                },
-                {
-                    name: 'Orange',
-                    value: '#F59E0B'
-                },
-                {
-                    name: 'Green',
-                    value: '#34D399'
-                },
-                {
-                    name: 'Blue',
-                    value: '#60A5FA'
-                },
-                {
-                    name: 'Purple',
-                    value: '#8B5CF6'
-                },
-                {
-                    name: 'Pink',
-                    value: '#F472B6'
-                }
-            ]
+            return colors
         }
      },
     methods: {

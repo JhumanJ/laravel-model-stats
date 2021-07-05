@@ -3,7 +3,7 @@
 
     </div>
     <div class="flex flex-col" v-else>
-        <div class="flex">
+        <div class="flex px-2">
             <template v-if="dashboard">
                 <div class="w-56">
                     <dashboard-input name="dashboard" :value="dashboard" @input="changeDashboard"/>
@@ -41,7 +41,7 @@
             </div>
 
             <template v-else>
-                <div class="w-full mt-5">
+                <div class="w-full mt-5 px-2">
                     <div class="max-w-sm">
                         <dashboard-date-range/>
                     </div>

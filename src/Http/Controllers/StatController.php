@@ -17,6 +17,12 @@ class StatController extends Controller
         switch ($request->aggregate_type) {
             case 'daily_count':
                 return $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column);
+            case 'cumulated_daily_count':
+                return $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column, null, true);
+            case 'period_total':
+                return $modelStats->getPeriodTotal($dateFrom, $dateTo, $request->date_column);
+            default:
+                throw new \Exception('Wigdet aggregate type not supported.');
         }
     }
 }
