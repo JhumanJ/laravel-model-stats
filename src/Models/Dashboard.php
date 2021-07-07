@@ -21,4 +21,8 @@ class Dashboard extends Model
     protected $casts = [
         'body' => 'array',
     ];
+
+    protected $attributes = [
+        'body' => '{"widgets":[]}'
+    ];
 }
