@@ -23,6 +23,6 @@ class Dashboard extends Model
     ];
 
     protected $attributes = [
-        'body' => '{"widgets":[]}'
+        'body' => '{"widgets":[]}',
     ];
 }

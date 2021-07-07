@@ -86,7 +86,7 @@ class ModelStats
                 $data[$dateKey] = $defaultValue;
             }
 
-            if (! is_null($cumulatedSum) ) {
+            if (! is_null($cumulatedSum)) {
                 $data[$dateKey] += $cumulatedSum;
                 $cumulatedSum = $data[$dateKey];
             }
