@@ -30,6 +30,7 @@
 
 <script>
 import DailyCount from "./components/DailyCount";
+import GroupByCount from "./components/GroupByCount";
 import PeriodTotal from "./components/PeriodTotal";
 import VueGridLayout from 'vue-grid-layout';
 import clone from 'lodash/clone'
@@ -39,6 +40,7 @@ export default {
     components: {
         PeriodTotal: PeriodTotal,
         DailyCount: DailyCount,
+        GroupByCount: GroupByCount,
         GridLayout: VueGridLayout.GridLayout,
         GridItem: VueGridLayout.GridItem
     },
@@ -51,7 +53,8 @@ export default {
         typeToComponent: {
             'daily_count': 'daily-count',
             'cumulated_daily_count': 'daily-count',
-            'period_total': 'period-total'
+            'period_total': 'period-total',
+            'group_by_count': 'group-by-count',
         },
         gridLayout: []
     }),

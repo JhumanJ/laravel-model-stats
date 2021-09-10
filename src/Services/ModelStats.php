@@ -72,6 +72,30 @@ class ModelStats
     }
 
     /**
+     * Get the total count (grouped by) for a given column
+     */
+    public function getGroupByCount(
+        Carbon $from,
+        Carbon $to,
+        string $dateFieldName,
+        string $aggregateColumn
+    ) {
+        $tableName = (new $this->class)->getTable();
+
+        $mapping = [];
+        DB::table($tableName)->where($dateFieldName, '>=', $from->startOfDay())
+            ->where($dateFieldName, '<=', $to->endOfDay())
+            ->groupBy($aggregateColumn)
+            ->select($aggregateColumn, DB::raw('count(*) as count'))
+            ->get()
+            ->each(function ($row) use (&$mapping, $aggregateColumn) {
+                $mapping[$row->{$aggregateColumn}] = $row->count;
+            });
+
+        return $mapping;
+    }
+
+    /**
      * Completes the histogram dataset with days without any values
      *
      * If cumulatedSum passed, will fill days by adding some of previous
@@ -82,11 +106,11 @@ class ModelStats
 
         foreach (array_reverse(range(0, $daysSince)) as $number) {
             $dateKey = $to->copy()->subDays($number)->format('Y-m-d');
-            if (! isset($data[$dateKey])) {
+            if (!isset($data[$dateKey])) {
                 $data[$dateKey] = $defaultValue;
             }
 
-            if (! is_null($cumulatedSum)) {
+            if (!is_null($cumulatedSum)) {
                 $data[$dateKey] += $cumulatedSum;
                 $cumulatedSum = $data[$dateKey];
             }

@@ -88,6 +88,7 @@ export default {
 
     methods: {
         changeDashboard(selection) {
+            window.localStorage.setItem('currentDashboardId', selection.value);
             this.$store.commit('dashboards/setCurrentId', selection.value)
             this.$store.commit('widgets/set', this.dashboard.body.widgets)
         },

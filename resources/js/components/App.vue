@@ -78,7 +78,13 @@ export default {
 
                 // Set current
                 if (this.dashboard == null && response.data.length) {
-                    this.$store.commit('dashboards/setCurrentId', response.data[0].id)
+                    const previous = parseInt(window.localStorage.getItem('currentDashboardId'))
+                    const dashboardsIds = response.data.map((dashboard)=>dashboard.id)
+                    if (previous !== null && dashboardsIds.includes(previous)) {
+                        this.$store.commit('dashboards/setCurrentId', previous)
+                    } else {
+                        this.$store.commit('dashboards/setCurrentId', response.data[0].id)
+                    }
                     this.$store.commit('widgets/set', this.dashboard.body.widgets)
                 }
             })

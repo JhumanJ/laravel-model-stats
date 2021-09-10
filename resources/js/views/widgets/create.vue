@@ -27,7 +27,7 @@
                               class="mt-2"
                               name="date_column"
                               label="Date Column"
-                              :required="true"
+                              :required="true" v-if="hasDateColumn"
                               :options="modelColumnOptions"/>
                 <select-input :form="form"
                               class="mt-2"
@@ -96,6 +96,10 @@ export default {
                 return type.value === this.form.aggregate_type
             })
         },
+        hasDateColumn() {
+            if (this.form.aggregate_type == null) return null
+            return ![/* TODO add columns without date */].includes(this.form.aggregate_type)
+        },
         aggregateTypes() {
             return [
                 {
@@ -112,6 +116,11 @@ export default {
                     value: 'period_total',
                     name: 'Period Total Count',
                     requires_agg_column: false
+                },
+                {
+                    value: 'group_by_count',
+                    name: 'Group By Count',
+                    requires_agg_column: true
                 },
             ]
         },

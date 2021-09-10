@@ -21,6 +21,9 @@ class StatController extends Controller
                 return $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column, null, true);
             case 'period_total':
                 return $modelStats->getPeriodTotal($dateFrom, $dateTo, $request->date_column);
+            case 'group_by_count':
+                return $modelStats->getGroupByCount($dateFrom, $dateTo, $request->date_column,
+                    $request->aggregate_column);
             default:
                 throw new \Exception('Wigdet aggregate type not supported.');
         }

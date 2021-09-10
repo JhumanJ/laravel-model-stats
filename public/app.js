@@ -1941,7 +1941,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
         if (_this.dashboard == null && response.data.length) {
-          _this.$store.commit('dashboards/setCurrentId', response.data[0].id);
+          var previous = parseInt(window.localStorage.getItem('currentDashboardId'));
+          var dashboardsIds = response.data.map(function (dashboard) {
+            return dashboard.id;
+          });
+
+          if (previous !== null && dashboardsIds.includes(previous)) {
+            _this.$store.commit('dashboards/setCurrentId', previous);
+          } else {
+            _this.$store.commit('dashboards/setCurrentId', response.data[0].id);
+          }
 
           _this.$store.commit('widgets/set', _this.dashboard.body.widgets);
         }
@@ -2092,6 +2101,52 @@ __webpack_require__.r(__webpack_exports__);
     fail: function fail() {
       this.canSuccess = false;
       return this;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/charts/BarChart.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/charts/BarChart.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue_chartjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-chartjs */ "./node_modules/vue-chartjs/es/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var reactiveProp = vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.mixins.reactiveProp;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__.Bar,
+  mixins: [reactiveProp],
+  props: ['chartData', 'options'],
+  mounted: function mounted() {
+    this.renderChart(this.chartData, this.computedOptions);
+  },
+  computed: {
+    computedOptions: function computedOptions() {
+      return _objectSpread({
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+        responsive: true,
+        maintainAspectRatio: false
+      }, this.options);
     }
   }
 });
@@ -3368,11 +3423,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_DailyCount__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/DailyCount */ "./resources/js/components/widgets/components/DailyCount.vue");
-/* harmony import */ var _components_PeriodTotal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/PeriodTotal */ "./resources/js/components/widgets/components/PeriodTotal.vue");
-/* harmony import */ var vue_grid_layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-grid-layout */ "./node_modules/vue-grid-layout/dist/vue-grid-layout.common.js");
-/* harmony import */ var vue_grid_layout__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_grid_layout__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var lodash_clone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/clone */ "./node_modules/lodash/clone.js");
-/* harmony import */ var lodash_clone__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_clone__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_GroupByCount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/GroupByCount */ "./resources/js/components/widgets/components/GroupByCount.vue");
+/* harmony import */ var _components_PeriodTotal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/PeriodTotal */ "./resources/js/components/widgets/components/PeriodTotal.vue");
+/* harmony import */ var vue_grid_layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-grid-layout */ "./node_modules/vue-grid-layout/dist/vue-grid-layout.common.js");
+/* harmony import */ var vue_grid_layout__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_grid_layout__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var lodash_clone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/clone */ "./node_modules/lodash/clone.js");
+/* harmony import */ var lodash_clone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_clone__WEBPACK_IMPORTED_MODULE_4__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3413,13 +3469,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'WidgetList',
   components: {
-    PeriodTotal: _components_PeriodTotal__WEBPACK_IMPORTED_MODULE_1__.default,
+    PeriodTotal: _components_PeriodTotal__WEBPACK_IMPORTED_MODULE_2__.default,
     DailyCount: _components_DailyCount__WEBPACK_IMPORTED_MODULE_0__.default,
-    GridLayout: (vue_grid_layout__WEBPACK_IMPORTED_MODULE_2___default().GridLayout),
-    GridItem: (vue_grid_layout__WEBPACK_IMPORTED_MODULE_2___default().GridItem)
+    GroupByCount: _components_GroupByCount__WEBPACK_IMPORTED_MODULE_1__.default,
+    GridLayout: (vue_grid_layout__WEBPACK_IMPORTED_MODULE_3___default().GridLayout),
+    GridItem: (vue_grid_layout__WEBPACK_IMPORTED_MODULE_3___default().GridItem)
   },
   props: {
     widgets: {
@@ -3432,7 +3490,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       typeToComponent: {
         'daily_count': 'daily-count',
         'cumulated_daily_count': 'daily-count',
-        'period_total': 'period-total'
+        'period_total': 'period-total',
+        'group_by_count': 'group-by-count'
       },
       gridLayout: []
     };
@@ -3442,13 +3501,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     initLayout: function initLayout() {
-      this.gridLayout = lodash_clone__WEBPACK_IMPORTED_MODULE_3___default()(this.widgets).map(function (widget) {
+      this.gridLayout = lodash_clone__WEBPACK_IMPORTED_MODULE_4___default()(this.widgets).map(function (widget) {
         return _objectSpread(_objectSpread({}, widget.position), widget);
       });
     },
     layoutUpdated: function layoutUpdated() {
       var widgets = this.gridLayout.map(function (widget) {
-        var wid = lodash_clone__WEBPACK_IMPORTED_MODULE_3___default()(widget);
+        var wid = lodash_clone__WEBPACK_IMPORTED_MODULE_4___default()(widget);
         wid.position = {
           x: wid.x,
           y: wid.y,
@@ -3566,6 +3625,166 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios__WEBPACK_IMPORTED_MODULE_0___default().post(this.apiPath + "widgets/data", {
         model: this.widget.model.value,
         aggregate_type: this.widget.aggregate_type,
+        date_column: this.widget.date_column,
+        date_to: this.toDate,
+        date_from: this.fromDate
+      }).then(function (response) {
+        _this.loadedData = response.data;
+        _this.loading = false;
+      });
+    },
+    deleteChart: function deleteChart() {
+      this.$emit('delete');
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)({
+    fromDate: function fromDate(state) {
+      return state['dashboards'].fromDate;
+    },
+    toDate: function toDate(state) {
+      return state['dashboards'].toDate;
+    }
+  })), {}, {
+    chartLabels: function chartLabels() {
+      return Object.keys(this.loadedData).sort();
+    },
+    chartDataValues: function chartDataValues() {
+      var _this2 = this;
+
+      return this.chartLabels.map(function (label) {
+        return _this2.loadedData[label];
+      });
+    },
+    chartData: function chartData() {
+      if (!this.loadedData) return;
+      return {
+        labels: this.chartLabels,
+        datasets: [{
+          label: this.widget.title,
+          backgroundColor: this.widget.graph_color ? this.widget.graph_color : '#60A5FA',
+          data: this.chartDataValues
+        }]
+      };
+    },
+    chartOptions: function chartOptions() {
+      if (this.widget.aggregate_type === 'cumulated_daily_count') {
+        return {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        };
+      }
+
+      return {};
+    }
+  }),
+  watch: {
+    fromDate: function fromDate() {
+      this.loadData();
+    },
+    toDate: function toDate() {
+      this.loadData();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/GroupByCount.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/GroupByCount.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _charts_BarChart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../charts/BarChart */ "./resources/js/components/charts/BarChart.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'GroupByCount',
+  components: {
+    BarChart: _charts_BarChart__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  props: {
+    widget: {
+      required: true,
+      type: Object
+    }
+  },
+  data: function data() {
+    return {
+      loadedData: null,
+      loading: true
+    };
+  },
+  mounted: function mounted() {
+    this.loadData();
+  },
+  methods: {
+    loadData: function loadData() {
+      var _this = this;
+
+      this.loading = true;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post(this.apiPath + "widgets/data", {
+        model: this.widget.model.value,
+        aggregate_type: this.widget.aggregate_type,
+        aggregate_column: this.widget.aggregate_column,
         date_column: this.widget.date_column,
         date_to: this.toDate,
         date_from: this.fromDate
@@ -3903,6 +4122,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   methods: {
     changeDashboard: function changeDashboard(selection) {
+      window.localStorage.setItem('currentDashboardId', selection.value);
       this.$store.commit('dashboards/setCurrentId', selection.value);
       this.$store.commit('widgets/set', this.dashboard.body.widgets);
     },
@@ -4256,6 +4476,12 @@ __webpack_require__.r(__webpack_exports__);
         return type.value === _this2.form.aggregate_type;
       });
     },
+    hasDateColumn: function hasDateColumn() {
+      if (this.form.aggregate_type == null) return null;
+      return ![
+        /* TODO add columns without date */
+      ].includes(this.form.aggregate_type);
+    },
     aggregateTypes: function aggregateTypes() {
       return [{
         value: 'daily_count',
@@ -4269,6 +4495,10 @@ __webpack_require__.r(__webpack_exports__);
         value: 'period_total',
         name: 'Period Total Count',
         requires_agg_column: false
+      }, {
+        value: 'group_by_count',
+        name: 'Group By Count',
+        requires_agg_column: true
       }];
     },
     colorOptions: function colorOptions() {
@@ -80945,6 +81175,44 @@ component.options.__file = "resources/js/components/Loading.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/charts/BarChart.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/charts/BarChart.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _BarChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BarChart.vue?vue&type=script&lang=js& */ "./resources/js/components/charts/BarChart.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+;
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__.default)(
+  _BarChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/charts/BarChart.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/charts/LineChart.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/charts/LineChart.vue ***!
@@ -81685,6 +81953,45 @@ component.options.__file = "resources/js/components/widgets/components/DailyCoun
 
 /***/ }),
 
+/***/ "./resources/js/components/widgets/components/GroupByCount.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/widgets/components/GroupByCount.vue ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _GroupByCount_vue_vue_type_template_id_79cbcc17___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GroupByCount.vue?vue&type=template&id=79cbcc17& */ "./resources/js/components/widgets/components/GroupByCount.vue?vue&type=template&id=79cbcc17&");
+/* harmony import */ var _GroupByCount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupByCount.vue?vue&type=script&lang=js& */ "./resources/js/components/widgets/components/GroupByCount.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _GroupByCount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _GroupByCount_vue_vue_type_template_id_79cbcc17___WEBPACK_IMPORTED_MODULE_0__.render,
+  _GroupByCount_vue_vue_type_template_id_79cbcc17___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/widgets/components/GroupByCount.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/widgets/components/PeriodTotal.vue":
 /*!********************************************************************!*\
   !*** ./resources/js/components/widgets/components/PeriodTotal.vue ***!
@@ -81964,6 +82271,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Loading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Loading.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Loading.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Loading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/charts/BarChart.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/charts/BarChart.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BarChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BarChart.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/charts/BarChart.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BarChart_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -82268,6 +82591,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DailyCount.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/DailyCount.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/components/GroupByCount.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/widgets/components/GroupByCount.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupByCount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./GroupByCount.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/GroupByCount.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupByCount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -82733,6 +83072,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCount_vue_vue_type_template_id_4b7fc214___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCount_vue_vue_type_template_id_4b7fc214___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DailyCount.vue?vue&type=template&id=4b7fc214& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/DailyCount.vue?vue&type=template&id=4b7fc214&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/widgets/components/GroupByCount.vue?vue&type=template&id=79cbcc17&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/widgets/components/GroupByCount.vue?vue&type=template&id=79cbcc17& ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupByCount_vue_vue_type_template_id_79cbcc17___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupByCount_vue_vue_type_template_id_79cbcc17___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupByCount_vue_vue_type_template_id_79cbcc17___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./GroupByCount.vue?vue&type=template&id=79cbcc17& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/GroupByCount.vue?vue&type=template&id=79cbcc17&");
 
 
 /***/ }),
@@ -84612,6 +84968,151 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/GroupByCount.vue?vue&type=template&id=79cbcc17&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/GroupByCount.vue?vue&type=template&id=79cbcc17& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "daily-count relative max-h-full max-w-full" },
+    [
+      _c(
+        "div",
+        {
+          staticClass: "bg-white border shadow-sm max-h-full max-w-full h-full"
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "p-5 pb-8 h-full max-h-full max-w-full flex flex-col group"
+            },
+            [
+              _c("div", { staticClass: "graph-title" }, [
+                _c("h3", { staticClass: "font-medium text-xl truncate" }, [
+                  _vm._v(_vm._s(_vm.widget.title) + "\n                    "),
+                  _c(
+                    "span",
+                    { staticClass: "text-sm font-light text-gray-400" },
+                    [
+                      _vm._v(
+                        "\n                " +
+                          _vm._s(_vm.widget.aggregate_type) +
+                          ", " +
+                          _vm._s(_vm.widget.model.name) +
+                          "(" +
+                          _vm._s(_vm.widget.date_column) +
+                          ")\n            "
+                      )
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.loadedData && !_vm.loading
+                ? _c("bar-chart", {
+                    staticClass: "relative max-h-full flex-grow",
+                    attrs: {
+                      options: _vm.chartOptions,
+                      "chart-data": _vm.chartData
+                    }
+                  })
+                : _vm.loading
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "flex items-center justify-center flex-grow"
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "h-10 w-10 animate-spin",
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 20 20",
+                            fill: "currentColor"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              "fill-rule": "evenodd",
+                              d:
+                                "M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z",
+                              "clip-rule": "evenodd"
+                            }
+                          })
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "opacity-0 group-hover:opacity-100 absolute top-3 right-3 p-2 rounded-full bg-white hover:bg-gray-50 cursor-pointer",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.deleteChart.apply(null, arguments)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "h-5 w-5",
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 20 20",
+                        fill: "currentColor"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          "fill-rule": "evenodd",
+                          d:
+                            "M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z",
+                          "clip-rule": "evenodd"
+                        }
+                      })
+                    ]
+                  )
+                ]
+              )
+            ],
+            1
+          )
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/PeriodTotal.vue?vue&type=template&id=2fe9e056&":
 /*!******************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/widgets/components/PeriodTotal.vue?vue&type=template&id=2fe9e056& ***!
@@ -85287,16 +85788,18 @@ var render = function() {
           _vm._v(" "),
           _vm.modelAndTypeSelected
             ? [
-                _c("select-input", {
-                  staticClass: "mt-2",
-                  attrs: {
-                    form: _vm.form,
-                    name: "date_column",
-                    label: "Date Column",
-                    required: true,
-                    options: _vm.modelColumnOptions
-                  }
-                }),
+                _vm.hasDateColumn
+                  ? _c("select-input", {
+                      staticClass: "mt-2",
+                      attrs: {
+                        form: _vm.form,
+                        name: "date_column",
+                        label: "Date Column",
+                        required: true,
+                        options: _vm.modelColumnOptions
+                      }
+                    })
+                  : _vm._e(),
                 _vm._v(" "),
                 _c("select-input", {
                   staticClass: "mt-2",
