@@ -4,7 +4,7 @@
     </div>
     <div class="flex flex-col" v-else>
         <div class="flex px-2">
-            <template v-if="dashboard">
+            <div class="w-full flex" v-if="dashboard" :key="dashboard.id">
                 <div class="w-56">
                     <dashboard-input name="dashboard" :value="dashboard" @input="changeDashboard"/>
                 </div>
@@ -19,7 +19,7 @@
                             d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h5a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h5v5.586l-1.293-1.293zM9 4a1 1 0 012 0v2H9V4z"/>
                     </svg>
                 </button>
-            </template>
+            </div>
             <template v-else>
                 <router-link id="create-dashboard" :to="{'name':'dashboards.create'}"
                              class="bg-white text-gray-500 hover:text-blue-500 p-2 relative shadow-sm border hover:bg-gray-100 cursor-pointer">
@@ -31,7 +31,7 @@
                 </router-link>
             </template>
         </div>
-        <div class="flex flex-wrap mt-2" v-if="dashboard">
+        <div class="flex flex-wrap mt-2" v-if="dashboard" :key="dashboard.id">
             <p class="ml-4">{{ dashboard.description }}</p>
 
             <div v-if="!hasWidgets" class="bg-white w-full shadow-sm p-6 mt-4">
