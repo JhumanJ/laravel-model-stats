@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
+    const FRONT_END_VERSION = 5;
+
     public function home()
     {
         return view('model-stats::dashboard', [
@@ -22,7 +24,7 @@ class HomeController extends Controller
         return [
             'appName' => config('app.name'),
             'path' => config('model-stats.routes_prefix'),
-            'frontEndVersion' => 4,
+            'frontEndVersion' => self::FRONT_END_VERSION,
         ];
     }
 

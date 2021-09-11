@@ -33,7 +33,7 @@ export default {
     },
 
     data: () => ({
-        frontEndVersion: 4,
+        frontEndVersion: 5,
         alert: {
             type: null,
             autoClose: 0,

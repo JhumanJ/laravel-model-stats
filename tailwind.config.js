@@ -13,7 +13,9 @@ module.exports = {
         safelist: [
             /.*(bg|border)-(blue|gray|red|green).*/, // Buttons
             ...alertColors.map((color)=>['bg-'+color+'-100', 'border-'+color+'-500']).flat(), // Alerts
-            ...graphColors.map((color) => 'to-'+color+'-100') // Gradients widgets
+            ...graphColors.map((color) => 'to-'+color+'-100'), // Gradients widgets
+            ...graphColors.map((color) => 'text-'+color+'-500') // Text widgets
+
         ]
     },
     darkMode: 'media', // or 'media' or 'class'

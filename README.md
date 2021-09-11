@@ -7,7 +7,7 @@ Model statistics dashboard for your Laravel Application
 [![Total Downloads](https://img.shields.io/packagist/dt/jhumanj/laravel-model-stats.svg?style=flat-square)](https://packagist.org/packages/jhumanj/laravel-model-stats)
 
 ---
-<img style="margin:auto;" src="https://i.ibb.co/Mnkp3FD/Capture-d-e-cran-2021-06-25-a-10-55-32.png" alt="Capture-d-e-cran-2021-06-25-a-10-55-32" border="0">
+<img style="margin:auto;" src="https://i.ibb.co/hV6dt8L/Capture-d-e-cran-2021-09-11-a-10-54-59.png" alt="Screenshot of sample dashboard" border="0">
 
 This Laravel packages gives you a statistic dashboard for you Laravel application. Think of it as a light version of 
 [Grafana](https://grafana.com/), but built-in your Laravel application, and much easier to get started with. 
@@ -37,9 +37,10 @@ Different type of widgets (daily count, daily average, etc.) are available. When
 you choose a Model, an aggregation type and the column(s) for the graph. You can then resize and move the widgets around on your dashboard.
 
 The aggregation types currently available:
-- Daily Count (Number of records per day).
-- Cumulated Daily Count (Total number of records since beginning, every day).
+- Daily Count (Number of records per day during selected period).
+- Cumulated Daily Count (Cumulated Total record count during selected period).
 - Period Total (Number of new records during selected period).
+- Group By Count (Count per group for a given column during selected period).
 - ... (more to come soon)
 
 For each widget type, date can be any column: `created_at`,`updated_at`,`custom_date`.

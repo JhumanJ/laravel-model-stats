@@ -1,14 +1,9 @@
 <template>
     <div class="daily-count relative max-h-full max-w-full">
         <div class="bg-white border shadow-sm max-h-full max-w-full h-full">
-            <div class="p-5 pb-8 h-full max-h-full max-w-full flex flex-col group">
+            <div class="p-5 pb-12 h-full max-h-full max-w-full flex flex-col group">
                 <div class="graph-title">
-                    <h3 class="font-medium text-xl truncate">{{ widget.title }}
-                        <span
-                            class="text-sm font-light text-gray-400">
-                    {{ widget.aggregate_type }}, {{ widget.model.name }}({{ widget.date_column }})
-                </span>
-                    </h3>
+                    <h3 class="font-medium text-xl truncate">{{ widget.title }}</h3>
                 </div>
                 <bar-chart class="relative max-h-full flex-grow" v-if="loadedData && !loading" :options="chartOptions"
                             :chart-data="chartData"/>
@@ -29,6 +24,10 @@
                               clip-rule="evenodd"/>
                     </svg>
                 </button>
+                <p
+                    class="text-xs text-center font-light text-gray-400">
+                    {{ widget.aggregate_type }}, {{ widget.model.name }}({{ widget.date_column }}, {{ widget.aggregate_column }})
+                </p>
             </div>
         </div>
     </div>
