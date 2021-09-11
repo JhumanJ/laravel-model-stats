@@ -16,11 +16,11 @@ class DataRequest extends FormRequest
         'daily_count',
         'cumulated_daily_count',
         'period_total',
-        'group_by_count'
+        'group_by_count',
     ];
 
     const AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN = [
-        'group_by_count'
+        'group_by_count',
     ];
 
     /**
@@ -36,7 +36,7 @@ class DataRequest extends FormRequest
             'date_column' => 'required',
             'date_from' => 'required|date_format:Y-m-d|before:date_to',
             'date_to' => 'required|date_format:Y-m-d|after:date_from',
-            'aggregate_column' => [Rule::requiredIf( in_array(request()->aggregate_type, self::AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN))],
+            'aggregate_column' => [Rule::requiredIf(in_array(request()->aggregate_type, self::AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN))],
         ];
     }
 
