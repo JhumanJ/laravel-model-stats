@@ -106,11 +106,11 @@ class ModelStats
 
         foreach (array_reverse(range(0, $daysSince)) as $number) {
             $dateKey = $to->copy()->subDays($number)->format('Y-m-d');
-            if (!isset($data[$dateKey])) {
+            if (! isset($data[$dateKey])) {
                 $data[$dateKey] = $defaultValue;
             }
 
-            if (!is_null($cumulatedSum)) {
+            if (! is_null($cumulatedSum)) {
                 $data[$dateKey] += $cumulatedSum;
                 $cumulatedSum = $data[$dateKey];
             }
