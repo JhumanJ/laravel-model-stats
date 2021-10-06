@@ -3,8 +3,6 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Middleware;
 
-use Jhumanj\LaravelModelStats\LaravelModelStats;
-
 class CustomCodeEnabled
 {
     /**
@@ -16,11 +14,12 @@ class CustomCodeEnabled
      */
     public function handle($request, $next)
     {
-        if (!config('model-stats.allow_custom_code')) {
+        if (! config('model-stats.allow_custom_code')) {
             return response([
                 'message' => 'Custom code not enabled.',
-            ],403);
+            ], 403);
         }
+
         return $next($request);
     }
 }

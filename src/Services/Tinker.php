@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Tinker\ClassAliasAutoloader;
@@ -14,7 +15,6 @@ use Psy\Configuration;
 use Psy\ExecutionLoopClosure;
 use Psy\Shell;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Illuminate\Support\Facades\Config;
 
 /**
  * Taken from https://github.com/spatie/laravel-web-tinker/blob/master/src/Tinker.php
@@ -52,7 +52,7 @@ class Tinker
         $resultVars = $this->shell->getScopeVariables();
 
         // Detect db write exception
-        if (!$this->lastExecSuccess() && isset($resultVars['_e'])) {
+        if (! $this->lastExecSuccess() && isset($resultVars['_e'])) {
             $lastException = $resultVars['_e'];
             if (get_class($lastException) === 'Illuminate\Database\QueryException') {
                 if (Str::of($lastException->getMessage())->contains(self::FAKE_WRITE_HOST)) {
@@ -72,8 +72,9 @@ class Tinker
     /**
      * Get the content of result variable
      */
-    public function getCustomCodeResult() {
-        if (!$this->lastExecSuccess()) {
+    public function getCustomCodeResult()
+    {
+        if (! $this->lastExecSuccess()) {
             return null;
         }
 
@@ -81,9 +82,10 @@ class Tinker
             $result = $this->shell->getScopeVariable('result');
         } catch (\Exception $exception) {
             ray($exception);
+
             return null;
         }
-        if ($result && !empty($result) ){
+        if ($result && ! empty($result)) {
             return $result;
         }
 
@@ -93,26 +95,29 @@ class Tinker
     /**
      * Check if last execution worked without exceptions
      */
-    public function lastExecSuccess() {
+    public function lastExecSuccess()
+    {
         return $this->shell->getLastExecSuccess();
     }
 
     /**
      * Prevents unwanted database modifications by enabling creating and using a readonly connection.
      */
-    public function readonly() {
+    public function readonly()
+    {
         $defaultConnection = config('database.default');
         $databaseConnection = Config::get('database.connections.'.$defaultConnection);
         $host = $databaseConnection['host'];
         unset($databaseConnection['host']);
         $databaseConnection['read'] = [
-            'host' => $host
+            'host' => $host,
         ];
         $databaseConnection['write'] = [
-            'host' => self::FAKE_WRITE_HOST
+            'host' => self::FAKE_WRITE_HOST,
         ];
-        Config::set('database.connections.readonly',$databaseConnection);
+        Config::set('database.connections.readonly', $databaseConnection);
         DB::setDefaultConnection('readonly');
+
         return $this;
     }
 

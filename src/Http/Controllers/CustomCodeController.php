@@ -24,7 +24,7 @@ class CustomCodeController extends Controller
     {
         $validated = $request->validate([
             'code' => 'required',
-            'chart_type' => ['required', Rule::in(self::CHART_TYPES)]
+            'chart_type' => ['required', Rule::in(self::CHART_TYPES)],
         ]);
 
         $result = $tinker->injectDates(now()->subMonth(), now())
@@ -35,8 +35,10 @@ class CustomCodeController extends Controller
         return $this->success([
             'output' => $result,
             'code_executed' => $codeExecuted,
-            'valid_output' => $codeExecuted ? $this->isValidOutput($request->chart_type,
-                $tinker->getCustomCodeResult()) : false
+            'valid_output' => $codeExecuted ? $this->isValidOutput(
+                $request->chart_type,
+                $tinker->getCustomCodeResult()
+            ) : false,
         ]);
     }
 
@@ -65,8 +67,10 @@ class CustomCodeController extends Controller
             return $this->error([
                 'output' => $result,
                 'code_executed' => $codeExecuted,
-                'valid_output' => $codeExecuted ? $this->isValidOutput($request->chart_type,
-                    $tinker->getCustomCodeResult()) : false
+                'valid_output' => $codeExecuted ? $this->isValidOutput(
+                    $request->chart_type,
+                    $tinker->getCustomCodeResult()
+                ) : false,
             ]);
         }
     }
@@ -79,32 +83,35 @@ class CustomCodeController extends Controller
             case 'line_chart':
                 return $this->validateLineChartData($data);
         }
+
         return false;
     }
 
     private function validateBarChartData($data)
     {
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             return false;
         }
         foreach ($data as $key => $value) {
-            if (!is_string($key) || !is_numeric($value)) {
+            if (! is_string($key) || ! is_numeric($value)) {
                 return false;
             }
         }
+
         return true;
     }
 
     private function validateLineChartData($data)
     {
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             return false;
         }
         foreach ($data as $key => $value) {
-            if (!is_string($key) || !is_numeric($value)) {
+            if (! is_string($key) || ! is_numeric($value)) {
                 return false;
             }
         }
+
         return true;
     }
 }
