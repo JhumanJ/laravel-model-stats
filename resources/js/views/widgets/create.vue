@@ -9,6 +9,11 @@
         </router-link>
         <div class="flex flex-col bg-white shadow-md p-6">
             <h2 class="text-xl font-medium mb-2">Create a Widget</h2>
+            <p>
+                <a href="#" v-if="!customCode" @click.prevent="customCode=true">Create a graph with custom PHP code</a>
+                <a href="#" v-else @click.prevent="customCode=false">Create a no-code graph</a>
+            </p>
+            <template v-if="!customCode">
             <text-input :form="form"
                         class="mt-2"
                         name="title"
@@ -47,6 +52,35 @@
                     Create Widget
                 </v-button>
             </template>
+            </template>
+            <template v-else>
+                <text-input :form="customCodeForm"
+                            class="mt-2"
+                            name="title"
+                            label="title"
+                            :required="true"/>
+                <select-input :form="customCodeForm"
+                              name="chart_type"
+                              label="Chart Type"
+                              :required="true"
+                              :options="[{ value: 'bar_chart',name: 'Bar Chart'},{ value: 'line_chart',name: 'Line Chart'}]"/>
+                <select-input :form="customCodeForm"
+                              class="mt-2"
+                              name="graph_color"
+                              label="Graph Color"
+                              :required="true"
+                              :options="colorOptions"/>
+
+                <code-input class="mt-2" label="Custom Code" @execute="executeCode" />
+                <has-error :form="customCodeForm" field="code" />
+                <code-output class="mt-2" :chart-type="customCodeForm.chart_type"  :value="executionResult" v-if="executionResult" />
+                <has-error :form="customCodeForm" field="execution_result" />
+
+                <v-button class="mt-4" @click="createWidget">
+                    Create Widget
+                </v-button>
+
+            </template>
         </div>
     </div>
 </template>
@@ -56,12 +90,16 @@ import Form from 'vform'
 import ModelInput from '@/components/forms/model-stats/ModelInput'
 import TextInput from "../../components/forms/TextInput";
 import colors from "../../data/colors";
+import CodeInput from "../../components/custom-code/CodeInput";
+import CodeOutput from "../../components/custom-code/CodeOutput";
+import axios from "axios";
 
 export default {
     name: 'WidgetCreate',
-    components: {TextInput, ModelInput},
+    components: {CodeOutput, CodeInput, TextInput, ModelInput},
     data() {
         return {
+            customCode: false,
             form: new Form({
                 id: null,
                 model: null,
@@ -70,6 +108,15 @@ export default {
                 aggregate_column: null,
                 graph_color: '#60A5FA'
             }),
+            customCodeForm: new Form({
+                id: null,
+                title: null,
+                custom_code: true,
+                chart_type: 'line_chart',
+                graph_color: '#60A5FA',
+                code: null
+            }),
+            executionResult: null
         }
     },
     computed: {
@@ -127,8 +174,19 @@ export default {
         colorOptions() {
             return colors
         }
-     },
+    },
+    watch: {
+      'customCodeForm.chart_type': function() {
+          this.executionResult = null
+      }
+    },
     methods: {
+        executeCode(code) {
+            this.customCodeForm.code = code
+            this.customCodeForm.post(this.apiPath+'widgets/custom-code/execute').then(({data}) => {
+                this.executionResult = data
+            });
+        },
         modelSelected() {
             if (this.form.model) {
                 if (this.modelColumns.includes('created_at')) {
@@ -139,32 +197,63 @@ export default {
             }
         },
         createWidget() {
-            if (this.formIsValid()) {
-                // this.form.post()
-                if (this.form.id === null) this.form.id = this.generateWidgetHash()
-                this.$store.commit('widgets/addOrUpdate', this.form.data())
-                this.alertSuccess('Widget was created.', true)
-                this.$router.push({name: 'welcome'})
+            if (this.customCode) {
+                this.customCodeForm.clear()
+                if (this.codeFormValid()) {
+                    if (this.customCodeForm.id === null) this.customCodeForm.id = this.generateWidgetHash()
+                    this.$store.commit('widgets/addOrUpdate', this.customCodeForm.data())
+                    this.alertSuccess('Widget was created.', true)
+                    this.$router.push({name: 'welcome'})
+                }
+            } else {
+                this.form.clear()
+                if (this.noCodeFormValid()) {
+                    if (this.form.id === null) this.form.id = this.generateWidgetHash()
+                    this.$store.commit('widgets/addOrUpdate', this.form.data())
+                    this.alertSuccess('Widget was created.', true)
+                    this.$router.push({name: 'welcome'})
+                }
             }
         },
-        formIsValid() {
+        noCodeFormValid() {
+            const errors = {}
+            let hasError = false
             if (!this.form.title) {
-                this.form.errors.set('title', 'Please select a title.')
-                return false
+                errors['title'] = 'Please select a title.'
+                hasError = true
             }
             if (!this.form.model) {
-                this.form.errors.set('model', 'Please select a model.')
-                return false
+                errors['model'] = 'Please select a model.'
+                hasError = true
             }
             if (!this.form.aggregate_type) {
-                this.form.errors.set('aggregate_type', 'Please select an aggregate type.')
-                return false
+                errors['aggregate_type'] = 'Please select an aggregate type.'
+                hasError = true
             }
             if (!this.form.date_column) {
-                this.form.errors.set('model', 'Please select the date column.')
-                return false
+                errors['model'] = 'Please select the date column.'
+                hasError = true
             }
-            return true
+            this.form.errors.set(errors)
+            return !hasError
+        },
+        codeFormValid() {
+            const errors = {}
+            let hasError = false
+            if (!this.customCodeForm.title) {
+                errors['title'] = 'Please select a title.'
+                hasError = true
+            }
+            if (!this.customCodeForm.code) {
+                errors['code'] = 'Please type some code and execute it.'
+                hasError = true
+            }
+            else if (!this.executionResult || !(this.executionResult.code_executed && this.executionResult.valid_output)) {
+                errors['execution_result'] = 'Please make sure your code executes and returns data in the right format.'
+                hasError = true
+            }
+            this.customCodeForm.errors.set(errors)
+            return !hasError
         },
         /**
          * Generate a unique hash id for the widget

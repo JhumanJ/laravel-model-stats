@@ -17,13 +17,14 @@ return [
     */
 
     'enabled' => env('MODEL_STATS_ENABLED', true),
+    'allow_custom_code' => env('MODEL_STATS_CUSTOM_CODE', true),
 
     /*
     |--------------------------------------------------------------------------
     | Route Middleware
     |--------------------------------------------------------------------------
     |
-    | These middleware will be assigned to every Telescope route, giving you
+    | These middleware will be assigned to every ModelStats route, giving you
     | the chance to add your own middleware to this list or change any of
     | the existing middleware. Or, you can simply stick with this list.
     |

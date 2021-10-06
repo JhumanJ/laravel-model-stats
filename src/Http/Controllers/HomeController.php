@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
-    const FRONT_END_VERSION = 5;
+    const FRONT_END_VERSION = 6;
 
     public function home()
     {

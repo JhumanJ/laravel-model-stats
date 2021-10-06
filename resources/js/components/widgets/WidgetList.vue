@@ -22,7 +22,7 @@
                        :key="widget.id">
                 <component class="w-full h-full"
                            @delete="deleteWidget(widget)"
-                           :is="typeToComponent[widget.aggregate_type]"
+                           :is="getWidgetComponent(widget)"
                            :widget="widget"/>
             </grid-item>
         </grid-layout>
@@ -32,6 +32,7 @@
 import DailyCount from "./components/DailyCount";
 import GroupByCount from "./components/GroupByCount";
 import PeriodTotal from "./components/PeriodTotal";
+import CustomCode from "./components/CustomCode";
 import VueGridLayout from 'vue-grid-layout';
 import clone from 'lodash/clone'
 
@@ -41,6 +42,7 @@ export default {
         PeriodTotal: PeriodTotal,
         DailyCount: DailyCount,
         GroupByCount: GroupByCount,
+        CustomCode: CustomCode,
         GridLayout: VueGridLayout.GridLayout,
         GridItem: VueGridLayout.GridItem
     },
@@ -64,6 +66,12 @@ export default {
     },
 
     methods: {
+        getWidgetComponent(widget) {
+            if (widget.custom_code) {
+                return 'custom-code'
+            }
+            return this.typeToComponent[widget.aggregate_type]
+        },
         initLayout() {
             this.gridLayout = clone(this.widgets).map((widget)=>{
                 return {...widget.position, ...widget }

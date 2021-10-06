@@ -11,7 +11,9 @@ Model statistics dashboard for your Laravel Application
 
 This Laravel packages gives you a statistic dashboard for you Laravel application. Think of it as a light version of 
 [Grafana](https://grafana.com/), but built-in your Laravel application, and much easier to get started with. 
-No code knowledge is required to use Laravel Model Stats, users can do everything from the web interface.
+No code knowledge is required to use Laravel Model Stats, users can do everything from the web interface. It also 
+optionally supports custom-code widgets, allowing you to define your widget data with
+code, just like you would do with tinker.
 
 ---
 
@@ -31,7 +33,7 @@ php artisan migrate
 ```
 
 
-## Available Widgets
+## Available No-Code Widgets
 
 Different type of widgets (daily count, daily average, etc.) are available. When creating a widget,
 you choose a Model, an aggregation type and the column(s) for the graph. You can then resize and move the widgets around on your dashboard.
@@ -44,6 +46,27 @@ The aggregation types currently available:
 - ... (more to come soon)
 
 For each widget type, date can be any column: `created_at`,`updated_at`,`custom_date`.
+
+## Custom Code Widgets
+
+You can also use custom code widgets, allowing you to define your widget data with
+code, just like you would do with tinker.
+
+Your code must define a `$result` variable containing the data to return to the choosen chart. You can use the `$dateFrom` and `$dateTo` variable.
+
+Example custom code for a bar chart:
+
+```php 
+$result = [
+    'a' => 10,
+    'b' => 20
+];
+```
+
+Note that for safety reasons, your code won't be allowed to perform any write operations on the database.
+You can only use the code to query data and transform it in-memory.
+Even if disabling write operations makes things sage, **remote code execution is always a 
+very risky operation**. Be sure that your dashboard authorization is properly configured. You may want to disable custom code widgets by setting the `MODEL_STATS_CUSTOM_CODE` env variable to `false`. 
 
 ## Dashboard Authorization
 
@@ -95,7 +118,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Inspiration 
 - [Grafana](https://grafana.com/): for the dashboard/widget aspect
-- [Laravel Telescope](https://github.com/laravel/telescope): for many things in the package structure (front-end, authorization...)
+- [Laravel/Telescope](https://github.com/laravel/telescope): for many things in the package structure (front-end, authorization...)
+- [Spatie/Laravel-Web-Tinker](https://github.com/spatie/laravel-web-tinker): for their web tinker implementation, which is used for custom code widgets
 
 ## License
 
