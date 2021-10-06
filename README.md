@@ -47,7 +47,7 @@ The aggregation types currently available:
 
 For each widget type, date can be any column: `created_at`,`updated_at`,`custom_date`.
 
-## Custom Code Widgets
+## Custom Code Widgetn
 
 You can also use custom code widgets, allowing you to define your widget data with
 code, just like you would do with tinker.
