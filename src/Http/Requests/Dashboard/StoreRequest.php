@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats\Http\Requests\Dashboard;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -12,10 +11,10 @@ class StoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'name' => 'required|string|max:60',
+            'name'        => 'required|string|max:60',
             'description' => 'required',
         ];
     }

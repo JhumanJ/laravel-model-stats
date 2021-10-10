@@ -10,11 +10,10 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelModelStatsServiceProvider extends PackageServiceProvider
 {
-    public function boot()
+    public function boot(): LaravelModelStatsServiceProvider
     {
         $this->registerPublishing();
         $this->registerCommands();
-
         return parent::boot();
     }
 
@@ -25,9 +24,7 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
          *
          * More info: https://github.com/spatie/laravel-package-tools
          */
-        $package
-            ->name('laravel-model-stats')
-            ->hasConfigFile();
+        $package->name('laravel-model-stats')->hasConfigFile();
 
         if (! config('model-stats.enabled')) {
             return;
@@ -47,7 +44,7 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
      *
      * @return void
      */
-    private function registerPublishing()
+    private function registerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -65,7 +62,7 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
      *
      * @return void
      */
-    protected function registerCommands()
+    protected function registerCommands(): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -78,7 +75,7 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
     /**
      * Load the package's migrations
      */
-    protected function loadMigrations()
+    protected function loadMigrations(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
