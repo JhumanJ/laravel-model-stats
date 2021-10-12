@@ -15,7 +15,7 @@ class ModelStatsServiceProvider extends Provider
      *
      * @return void
      */
-    protected function gate()
+    protected function gate(): void
     {
         Gate::define('viewModelStats', function ($user) {
             return in_array($user->email, [

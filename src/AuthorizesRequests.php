@@ -1,7 +1,9 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats;
+
+use Closure;
+use Illuminate\Http\Request;
 
 trait AuthorizesRequests
 {
@@ -10,15 +12,16 @@ trait AuthorizesRequests
      *
      * @var \Closure
      */
-    public static $authUsing;
+    public static Closure $authUsing;
 
     /**
      * Register the ModelStats authentication callback.
      *
-     * @param  \Closure  $callback
+     * @param \Closure $callback
+     *
      * @return static
      */
-    public static function auth($callback)
+    public static function auth(Closure $callback): static
     {
         static::$authUsing = $callback;
 
@@ -28,13 +31,12 @@ trait AuthorizesRequests
     /**
      * Determine if the given request can access the ModelStats dashboard.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return bool
      */
-    public static function check($request)
+    public static function check(Request $request): bool
     {
-        return (static::$authUsing ?: function () {
-            return app()->environment('local');
-        })($request);
+        return (static::$authUsing ?: fn () => app()->environment('local'))($request);
     }
 }

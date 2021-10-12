@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class ModelStats
 {
-    public $class;
+    public string $class;
 
-    public function __construct($class)
+    public function __construct(string $class)
     {
         $this->class = $class;
     }
@@ -57,7 +57,7 @@ class ModelStats
         Carbon $from,
         Carbon $to,
         string $dateFieldName = 'created_at'
-    ) {
+    ): array {
         $diff = $to->diffInDays($from);
 
         $periodCount = $this->class::where($dateFieldName, '>=', $from->startOfDay())
@@ -79,7 +79,7 @@ class ModelStats
         Carbon $to,
         string $dateFieldName,
         string $aggregateColumn
-    ) {
+    ): array {
         $tableName = (new $this->class)->getTable();
 
         $mapping = [];

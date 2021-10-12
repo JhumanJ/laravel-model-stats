@@ -2,16 +2,21 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
+use Schema;
+use ReflectionClass;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\Foundation\Application;
 
 class HomeController extends Controller
 {
-    const FRONT_END_VERSION = 6;
+    public const FRONT_END_VERSION = 6;
 
-    public function home()
+    public function home(): Factory|View|Application
     {
         return view('model-stats::dashboard', [
             'config' => $this->modelStatsConfig(),
@@ -19,7 +24,7 @@ class HomeController extends Controller
         ]);
     }
 
-    private function modelStatsConfig()
+    private function modelStatsConfig(): array
     {
         return [
             'appName' => config('app.name'),
@@ -33,19 +38,17 @@ class HomeController extends Controller
         $models = collect(File::allFiles(app_path()))
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
-                $class = sprintf(
+                return sprintf(
                     '\%s%s',
                     Container::getInstance()->getNamespace(),
                     strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
                 );
-
-                return $class;
             })
             ->filter(function ($class) {
                 $valid = false;
 
                 if (class_exists($class)) {
-                    $reflection = new \ReflectionClass($class);
+                    $reflection = new ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class) &&
                         ! $reflection->isAbstract();
                 }
@@ -54,16 +57,14 @@ class HomeController extends Controller
             });
 
 
-        return $models->map(function (string $class) {
-            return [
-                'class' => $class,
-                'fields' => $this->getClassFields($class),
-            ];
-        })->sortByDesc('class')->values();
+        return $models->map(fn(string $class) => [
+            'class' => $class,
+            'fields' => $this->getClassFields($class),
+        ])->sortByDesc('class')->values();
     }
 
     private function getClassFields(string $class)
     {
-        return \Schema::getColumnListing((new $class)->getTable());
+        return Schema::getColumnListing((new $class)->getTable());
     }
 }

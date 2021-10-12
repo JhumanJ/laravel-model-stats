@@ -14,22 +14,12 @@ class StatController extends Controller
         $dateFrom = Carbon::createFromFormat('Y-m-d', $request->date_from);
         $dateTo = Carbon::createFromFormat('Y-m-d', $request->date_to);
 
-        switch ($request->aggregate_type) {
-            case 'daily_count':
-                return $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column);
-            case 'cumulated_daily_count':
-                return $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column, null, true);
-            case 'period_total':
-                return $modelStats->getPeriodTotal($dateFrom, $dateTo, $request->date_column);
-            case 'group_by_count':
-                return $modelStats->getGroupByCount(
-                    $dateFrom,
-                    $dateTo,
-                    $request->date_column,
-                    $request->aggregate_column
-                );
-            default:
-                throw new \Exception('Wigdet aggregate type not supported.');
-        }
+        return match ($request->get('aggregate_type')) {
+            'daily_count' => $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column),
+            'cumulated_daily_count' => $modelStats->getDailyHistogram($dateFrom, $dateTo, $request->date_column, null, true),
+            'period_total' => $modelStats->getPeriodTotal($dateFrom, $dateTo, $request->date_column),
+            'group_by_count' => $modelStats->getGroupByCount($dateFrom, $dateTo, $request->date_column, $request->aggregate_column),
+            default => throw new \Exception('Widget aggregate type not supported.'),
+        };
     }
 }

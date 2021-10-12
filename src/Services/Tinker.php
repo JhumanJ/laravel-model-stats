@@ -3,6 +3,7 @@
 
 namespace Jhumanj\LaravelModelStats\Services;
 
+use Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Application;
@@ -10,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
 use Laravel\Tinker\ClassAliasAutoloader;
 use Psy\Configuration;
 use Psy\ExecutionLoopClosure;
@@ -24,13 +26,13 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class Tinker
 {
-    const FAKE_WRITE_HOST = 'database_write_not_allowed_with_model_stats';
+    public const FAKE_WRITE_HOST = 'database_write_not_allowed_with_model_stats';
 
     /** @var \Symfony\Component\Console\Output\BufferedOutput */
-    protected $output;
+    protected BufferedOutput $output;
 
     /** @var \Psy\Shell */
-    protected $shell;
+    protected Shell $shell;
 
     public function __construct()
     {
@@ -54,11 +56,11 @@ class Tinker
         // Detect db write exception
         if (! $this->lastExecSuccess() && isset($resultVars['_e'])) {
             $lastException = $resultVars['_e'];
-            if (get_class($lastException) === 'Illuminate\Database\QueryException') {
-                if (Str::of($lastException->getMessage())->contains(self::FAKE_WRITE_HOST)) {
-                    return "For safety reasons, you can only query data with ModelStats. Write operations are forbidden.";
-                }
-            }
+            if (($lastException instanceof QueryException)
+                && Str::of($lastException->getMessage())
+                      ->contains(self::FAKE_WRITE_HOST)) {
+                          return "For safety reasons, you can only query data with ModelStats. Write operations are forbidden.";
+                      }
         }
 
         // Make sure we have a result var
@@ -80,7 +82,7 @@ class Tinker
 
         try {
             $result = $this->shell->getScopeVariable('result');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             ray($exception);
 
             return null;
@@ -95,7 +97,7 @@ class Tinker
     /**
      * Check if last execution worked without exceptions
      */
-    public function lastExecSuccess()
+    public function lastExecSuccess(): bool
     {
         return $this->shell->getLastExecSuccess();
     }
@@ -103,7 +105,7 @@ class Tinker
     /**
      * Prevents unwanted database modifications by enabling creating and using a readonly connection.
      */
-    public function readonly()
+    public function readonly(): static
     {
         $defaultConnection = config('database.default');
         $databaseConnection = Config::get('database.connections.'.$defaultConnection);
@@ -124,7 +126,7 @@ class Tinker
     /**
      * Inject chart dates (if needed) in the shell.
      */
-    public function injectDates(Carbon $dateFrom, Carbon $dateTo)
+    public function injectDates(Carbon $dateFrom, Carbon $dateTo): static
     {
         $this->shell->setScopeVariables([
             'dateFrom' => $dateFrom,
@@ -199,7 +201,7 @@ class Tinker
 
     protected function cleanOutput(string $output): string
     {
-        $output = preg_replace('/(?s)(<aside.*?<\/aside>)|Exit:  Ctrl\+D/ms', '$2', $output);
+        $output = preg_replace('/(?s)(<aside.*?<\/aside>)|Exit: {2}Ctrl\+D/ms', '$2', $output);
 
         return trim($output);
     }

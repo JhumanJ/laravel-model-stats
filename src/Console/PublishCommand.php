@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats\Console;
 
 use Illuminate\Console\Command;
@@ -11,7 +10,7 @@ class PublishCommand extends Command
 
     protected $description = 'Publish all of the ModelStats resources';
 
-    public function handle()
+    public function handle(): void
     {
         $this->call('vendor:publish', [
             '--tag' => 'model-stats-config',
