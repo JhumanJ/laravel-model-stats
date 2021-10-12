@@ -2,10 +2,10 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Jhumanj\LaravelModelStats\Http\Requests\Dashboard\StoreRequest;
 use Jhumanj\LaravelModelStats\Http\Requests\Dashboard\UpdateRequest;
 use Jhumanj\LaravelModelStats\Models\Dashboard;

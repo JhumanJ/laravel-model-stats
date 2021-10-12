@@ -3,15 +3,15 @@
 
 namespace Jhumanj\LaravelModelStats\Services;
 
-use Exception;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Database\QueryException;
 use Laravel\Tinker\ClassAliasAutoloader;
 use Psy\Configuration;
 use Psy\ExecutionLoopClosure;
@@ -59,8 +59,8 @@ class Tinker
             if (($lastException instanceof QueryException)
                 && Str::of($lastException->getMessage())
                       ->contains(self::FAKE_WRITE_HOST)) {
-                          return "For safety reasons, you can only query data with ModelStats. Write operations are forbidden.";
-                      }
+                return "For safety reasons, you can only query data with ModelStats. Write operations are forbidden.";
+            }
         }
 
         // Make sure we have a result var

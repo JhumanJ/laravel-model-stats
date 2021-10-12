@@ -14,6 +14,7 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
     {
         $this->registerPublishing();
         $this->registerCommands();
+
         return parent::boot();
     }
 

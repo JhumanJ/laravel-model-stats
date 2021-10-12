@@ -38,11 +38,11 @@ class DataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'model'            => ['required', Rule::in($this->getModels())],
-            'aggregate_type'   => ['required', Rule::in(static::ALLOWED_AGGREGATES_TYPES)],
-            'date_column'      => 'required',
-            'date_from'        => 'required|date_format:Y-m-d|before:date_to',
-            'date_to'          => 'required|date_format:Y-m-d|after:date_from',
+            'model' => ['required', Rule::in($this->getModels())],
+            'aggregate_type' => ['required', Rule::in(static::ALLOWED_AGGREGATES_TYPES)],
+            'date_column' => 'required',
+            'date_from' => 'required|date_format:Y-m-d|before:date_to',
+            'date_to' => 'required|date_format:Y-m-d|after:date_from',
             'aggregate_column' => [Rule::requiredIf(in_array($this->aggregate_type, self::AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN, true))],
         ];
     }
@@ -52,6 +52,7 @@ class DataRequest extends FormRequest
         $models = collect(File::allFiles(app_path()))
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
+
                 return sprintf('\%s%s', Container::getInstance()
                                                  ->getNamespace(), strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
             })->filter(function ($class) {
@@ -60,7 +61,7 @@ class DataRequest extends FormRequest
                 if (class_exists($class)) {
                     $reflection = new \ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class)
-                             && !$reflection->isAbstract();
+                             && ! $reflection->isAbstract();
                 }
 
                 return $valid;

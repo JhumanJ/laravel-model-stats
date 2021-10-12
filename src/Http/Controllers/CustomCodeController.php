@@ -3,9 +3,9 @@
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Http\JsonResponse;
 use Jhumanj\LaravelModelStats\Http\Middleware\CustomCodeEnabled;
 use Jhumanj\LaravelModelStats\Services\Tinker;
 

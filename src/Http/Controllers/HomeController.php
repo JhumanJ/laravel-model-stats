@@ -2,15 +2,15 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
-use Schema;
-use ReflectionClass;
 use Illuminate\Container\Container;
-use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
-use Illuminate\Contracts\Foundation\Application;
+use ReflectionClass;
+use Schema;
 
 class HomeController extends Controller
 {
@@ -38,6 +38,7 @@ class HomeController extends Controller
         $models = collect(File::allFiles(app_path()))
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
+
                 return sprintf(
                     '\%s%s',
                     Container::getInstance()->getNamespace(),
@@ -57,7 +58,7 @@ class HomeController extends Controller
             });
 
 
-        return $models->map(fn(string $class) => [
+        return $models->map(fn (string $class) => [
             'class' => $class,
             'fields' => $this->getClassFields($class),
         ])->sortByDesc('class')->values();
