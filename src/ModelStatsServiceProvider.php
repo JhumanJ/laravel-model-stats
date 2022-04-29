@@ -13,7 +13,7 @@ class ModelStatsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->authorization();
     }
@@ -23,7 +23,7 @@ class ModelStatsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function authorization()
+    protected function authorization(): void
     {
         $this->gate();
 
@@ -40,12 +40,11 @@ class ModelStatsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function gate()
+    protected function gate(): void
     {
         Gate::define('viewModelStats', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+            return in_array($user->email, [//
+            ], true);
         });
     }
 }

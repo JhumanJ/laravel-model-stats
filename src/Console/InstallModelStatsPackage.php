@@ -12,7 +12,7 @@ class InstallModelStatsPackage extends Command
 
     protected $description = 'Install the ModelStatsPackage';
 
-    public function handle()
+    public function handle(): void
     {
         $this->info('Installing ModelStats package...');
 
@@ -35,7 +35,7 @@ class InstallModelStatsPackage extends Command
      *
      * @return void
      */
-    private function registerModelStatsServiceProvider()
+    private function registerModelStatsServiceProvider(): void
     {
         $namespace = Str::replaceLast('\\', '', $this->laravel->getNamespace());
 

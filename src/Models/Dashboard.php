@@ -1,16 +1,21 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
+use Jhumanj\LaravelModelStats\Database\Factories\DashboardFactory;
 
 class Dashboard extends Model
 {
-    // use HasFactory;
+    use HasFactory;
 
-    protected $table = 'model-stats-dashboards';
+    public function __construct(array $attributes = [])
+    {
+        $this->table = Config::get('model-stats.table_name');
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
         'name',
@@ -19,6 +24,15 @@ class Dashboard extends Model
     ];
 
     protected $casts = [
-        'body' => 'array',
+        'body' => 'json',
     ];
+
+    protected $attributes = [
+        'body' => '{"widgets":[]}',
+    ];
+
+    protected static function newFactory(): DashboardFactory
+    {
+        return DashboardFactory::new();
+    }
 }

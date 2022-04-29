@@ -3,6 +3,7 @@
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Jhumanj\LaravelModelStats\Http\Middleware\CustomCodeEnabled;
@@ -10,7 +11,7 @@ use Jhumanj\LaravelModelStats\Services\Tinker;
 
 class CustomCodeController extends Controller
 {
-    const CHART_TYPES = ['line_chart', 'bar_chart'];
+    public const CHART_TYPES = ['line_chart', 'bar_chart'];
 
     public function __construct()
     {
@@ -20,7 +21,7 @@ class CustomCodeController extends Controller
     /**
      * Endpoint used to test customCode when creating widgets.
      */
-    public function executeCustomCode(Request $request, Tinker $tinker)
+    public function executeCustomCode(Request $request, Tinker $tinker): JsonResponse
     {
         $validated = $request->validate([
             'code' => 'required',
@@ -35,10 +36,8 @@ class CustomCodeController extends Controller
         return $this->success([
             'output' => $result,
             'code_executed' => $codeExecuted,
-            'valid_output' => $codeExecuted ? $this->isValidOutput(
-                $request->chart_type,
-                $tinker->getCustomCodeResult()
-            ) : false,
+            'valid_output' => $codeExecuted
+                              && $this->isValidOutput($request->get('chart_type'), $tinker->getCustomCodeResult()),
         ]);
     }
 
@@ -51,8 +50,8 @@ class CustomCodeController extends Controller
             'date_to' => 'required|date_format:Y-m-d|after:date_from',
         ]);
 
-        $dateFrom = Carbon::createFromFormat('Y-m-d', $request->date_from);
-        $dateTo = Carbon::createFromFormat('Y-m-d', $request->date_to);
+        $dateFrom = Carbon::createFromFormat('Y-m-d', $request->get('date_from'));
+        $dateTo = Carbon::createFromFormat('Y-m-d', $request->get('date_to'));
 
         $result = $tinker->injectDates($dateFrom, $dateTo)
             ->readonly()
@@ -61,33 +60,28 @@ class CustomCodeController extends Controller
         $codeExecuted = $tinker->lastExecSuccess();
         $dataResult = $tinker->getCustomCodeResult();
 
-        if ($codeExecuted && $this->isValidOutput($request->chart_type, $dataResult)) {
+        if ($codeExecuted && $this->isValidOutput($request->get('chart_type'), $dataResult)) {
             return $tinker->getCustomCodeResult();
-        } else {
-            return $this->error([
-                'output' => $result,
-                'code_executed' => $codeExecuted,
-                'valid_output' => $codeExecuted ? $this->isValidOutput(
-                    $request->chart_type,
-                    $tinker->getCustomCodeResult()
-                ) : false,
-            ]);
         }
+
+        return $this->error([
+            'output' => $result,
+            'code_executed' => $codeExecuted,
+            'valid_output' => $codeExecuted
+                              && $this->isValidOutput($request->get('chart_type'), $tinker->getCustomCodeResult()),
+        ]);
     }
 
-    private function isValidOutput(string $chartType, $data)
+    private function isValidOutput(string $chartType, $data): bool
     {
-        switch ($chartType) {
-            case 'bar_chart':
-                return $this->validateBarChartData($data);
-            case 'line_chart':
-                return $this->validateLineChartData($data);
-        }
-
-        return false;
+        return match ($chartType) {
+            'bar_chart' => $this->validateBarChartData($data),
+            'line_chart' => $this->validateLineChartData($data),
+            default => false,
+        };
     }
 
-    private function validateBarChartData($data)
+    private function validateBarChartData($data): bool
     {
         if (! is_array($data)) {
             return false;
@@ -101,7 +95,7 @@ class CustomCodeController extends Controller
         return true;
     }
 
-    private function validateLineChartData($data)
+    private function validateLineChartData($data): bool
     {
         if (! is_array($data)) {
             return false;

@@ -16,8 +16,8 @@ return [
     |
     */
 
-    'enabled' => env('MODEL_STATS_ENABLED', true),
-    'allow_custom_code' => env('MODEL_STATS_CUSTOM_CODE', true),
+    'enabled'            => env('MODEL_STATS_ENABLED', true),
+    'allow_custom_code'  => env('MODEL_STATS_CUSTOM_CODE', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,20 +29,31 @@ return [
     | the existing middleware. Or, you can simply stick with this list.
     |
     */
-    'middleware' => [
+    'middleware'         => [
         'web',
         \Jhumanj\LaravelModelStats\Http\Middleware\Authorize::class,
     ],
 
     /*
     |--------------------------------------------------------------------------
+    | ModelStats table name
+    |--------------------------------------------------------------------------
+    |
+    | As PostgreSQL table names seems to use dashes instead of underscore
+    | this configures the table name based on your connection.
+    |
+    */
+    'table_name'         => 'model_stats_dashboards',
+
+    /*
+    |--------------------------------------------------------------------------
     | Route Prefixes
     |--------------------------------------------------------------------------
     |
-    | You can change the route where your dashboards are. By default routes will
+    | You can change the route where your dashboards are. By default, routes will
     | be starting the '/stats' prefix, and names will start with 'stats.'.
     |
     */
-    'routes_prefix' => 'stats',
+    'routes_prefix'      => 'stats',
     'route_names_prefix' => 'stats.',
 ];

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats\Http\Requests\Widgets;
 
 use Illuminate\Container\Container;
@@ -10,16 +9,24 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property string $model
+ * @property string $aggregate_type
+ * @property string $date_from
+ * @property string $date_to
+ * @property string $date_column
+ * @property string $aggregate_column
+ */
 class DataRequest extends FormRequest
 {
-    const ALLOWED_AGGREGATES_TYPES = [
+    public const ALLOWED_AGGREGATES_TYPES = [
         'daily_count',
         'cumulated_daily_count',
         'period_total',
         'group_by_count',
     ];
 
-    const AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN = [
+    public const AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN = [
         'group_by_count',
     ];
 
@@ -28,15 +35,15 @@ class DataRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'model' => ['required',Rule::in($this->getModels())],
+            'model' => ['required', Rule::in($this->getModels())],
             'aggregate_type' => ['required', Rule::in(static::ALLOWED_AGGREGATES_TYPES)],
             'date_column' => 'required',
             'date_from' => 'required|date_format:Y-m-d|before:date_to',
             'date_to' => 'required|date_format:Y-m-d|after:date_from',
-            'aggregate_column' => [Rule::requiredIf(in_array(request()->aggregate_type, self::AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN))],
+            'aggregate_column' => [Rule::requiredIf(in_array($this->aggregate_type, self::AGGREGATES_TYPES_WITH_AGGREGATE_COLUMN, true))],
         ];
     }
 
@@ -45,21 +52,16 @@ class DataRequest extends FormRequest
         $models = collect(File::allFiles(app_path()))
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
-                $class = sprintf(
-                    '\%s%s',
-                    Container::getInstance()->getNamespace(),
-                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
-                );
 
-                return $class;
-            })
-            ->filter(function ($class) {
+                return sprintf('\%s%s', Container::getInstance()
+                                                 ->getNamespace(), strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
+            })->filter(function ($class) {
                 $valid = false;
 
                 if (class_exists($class)) {
                     $reflection = new \ReflectionClass($class);
-                    $valid = $reflection->isSubclassOf(Model::class) &&
-                        ! $reflection->isAbstract();
+                    $valid = $reflection->isSubclassOf(Model::class)
+                             && ! $reflection->isAbstract();
                 }
 
                 return $valid;
