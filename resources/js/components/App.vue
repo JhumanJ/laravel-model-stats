@@ -33,7 +33,7 @@ export default {
     },
 
     data: () => ({
-        frontEndVersion: 6,
+        frontEndVersion: 7,
         alert: {
             type: null,
             autoClose: 0,
@@ -49,7 +49,7 @@ export default {
 
         // Check front-end version
         if (window.ModelStats.config.frontEndVersion > this.frontEndVersion) {
-            this.alertError('You ModelStats front-end files are not up to date. Please run ` php artisan model-stats:publish` on your server.')
+            this.alertError('You ModelStats front-end files are not up to date. Please run `php artisan model-stats:publish` on your server.')
         }
     },
 

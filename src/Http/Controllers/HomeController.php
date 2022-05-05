@@ -14,7 +14,7 @@ use Schema;
 
 class HomeController extends Controller
 {
-    public const FRONT_END_VERSION = 6;
+    public const FRONT_END_VERSION = 7;
 
     public function home(): Factory|View|Application
     {

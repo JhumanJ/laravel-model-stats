@@ -29,7 +29,7 @@ class CustomCodeController extends Controller
         ]);
 
         $result = $tinker->injectDates(now()->subMonth(), now())
-            ->readonly()
+            ->setConnection()
             ->execute($validated['code']);
         $codeExecuted = $tinker->lastExecSuccess();
 
@@ -54,7 +54,7 @@ class CustomCodeController extends Controller
         $dateTo = Carbon::createFromFormat('Y-m-d', $request->get('date_to'));
 
         $result = $tinker->injectDates($dateFrom, $dateTo)
-            ->readonly()
+            ->setConnection()
             ->execute($validated['code']);
 
         $codeExecuted = $tinker->lastExecSuccess();

@@ -36,7 +36,7 @@
                     Custom Code
                 </p>
                 <div class="w-full" v-if="showCode">
-                    <pre class="mt-4 p-4 flex border bg-blue-100 w-full overflow-x-scroll" v-if="showCode">{{widget.code}}</pre>
+                    <pre class="mt-4 p-4 flex border bg-blue-100 w-full overflow-x-scroll select-all" v-if="showCode">{{widget.code}}</pre>
                 </div>
             </div>
         </div>
@@ -71,6 +71,7 @@ export default {
     methods: {
         loadData() {
             this.loading = true
+            console.log('ok')
             axios.post(this.apiPath + "widgets/custom-code/data", {
                 code: this.widget.code,
                 chart_type: this.widget.chart_type,
@@ -81,7 +82,8 @@ export default {
                 this.loading = false
             }).catch((error) => {
                 this.loading = false
-                this.alertError(error.response.data.message)
+                console.log(error.response.data)
+                this.alertError(error.response.data.message ?? error.response.data.output )
             })
         },
         deleteChart() {

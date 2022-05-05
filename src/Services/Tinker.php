@@ -26,7 +26,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class Tinker
 {
-    public const FAKE_WRITE_HOST = 'database_write_not_allowed_with_model_stats';
 
     /** @var \Symfony\Component\Console\Output\BufferedOutput */
     protected BufferedOutput $output;
@@ -58,7 +57,7 @@ class Tinker
             $lastException = $resultVars['_e'];
             if (($lastException instanceof QueryException)
                 && Str::of($lastException->getMessage())
-                      ->contains(self::FAKE_WRITE_HOST)) {
+                      ->contains("SQLSTATE[42501]: Insufficient privilege")) {
                 return "For safety reasons, you can only query data with ModelStats. Write operations are forbidden.";
             }
         }
@@ -105,20 +104,9 @@ class Tinker
     /**
      * Prevents unwanted database modifications by enabling creating and using a readonly connection.
      */
-    public function readonly(): static
+    public function setConnection(): static
     {
-        $defaultConnection = config('database.default');
-        $databaseConnection = Config::get('database.connections.'.$defaultConnection);
-        $host = $databaseConnection['host'];
-        unset($databaseConnection['host']);
-        $databaseConnection['read'] = [
-            'host' => $host,
-        ];
-        $databaseConnection['write'] = [
-            'host' => self::FAKE_WRITE_HOST,
-        ];
-        Config::set('database.connections.readonly', $databaseConnection);
-        DB::setDefaultConnection('readonly');
+        DB::setDefaultConnection(config('model-stats.query_database_connection'));
 
         return $this;
     }
@@ -140,7 +128,6 @@ class Tinker
     {
         $config = new Configuration([
             'updateCheck' => 'never',
-            'configFile' => config('web-tinker.config_file') !== null ? base_path().'/'.config('web-tinker.config_file') : null,
         ]);
 
         $config->setHistoryFile(defined('PHP_WINDOWS_VERSION_BUILD') ? 'null' : '/dev/null');

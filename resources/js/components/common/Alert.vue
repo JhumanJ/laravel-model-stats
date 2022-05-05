@@ -4,7 +4,8 @@
             <p class="mt-2 mb-0">{{ message }}</p>
         </div>
 
-        <div class="flex justify-end">
+        <div class="flex items-end ml-4">
+            <div>
             <v-button v-if="type == 'error'" color="red" shade="light" @click="close">
                 CLOSE
             </v-button>
@@ -17,6 +18,7 @@
             <v-button v-if="type == 'confirmation'" color="gray" shade="light" @click="cancel">
                 NO, CANCEL
             </v-button>
+            </div>
 
         </div>
 

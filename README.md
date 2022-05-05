@@ -47,7 +47,7 @@ The aggregation types currently available:
 
 For each widget type, date can be any column: `created_at`,`updated_at`,`custom_date`.
 
-## Custom Code Widgetn
+## Custom Code Widgets
 
 You can also use custom code widgets, allowing you to define your widget data with
 code, just like you would do with tinker.
@@ -63,10 +63,51 @@ $result = [
 ];
 ```
 
-Note that for safety reasons, your code won't be allowed to perform any write operations on the database.
-You can only use the code to query data and transform it in-memory.
-Even if disabling write operations makes things sage, **remote code execution is always a 
-very risky operation**. Be sure that your dashboard authorization is properly configured. You may want to disable custom code widgets by setting the `MODEL_STATS_CUSTOM_CODE` env variable to `false`. 
+### Custom Code Setup
+🚨 Using the custom code feature against a production database is a HUGE risk 🚨
+
+Any malicious user with access to the dashboard,
+or any mistake can cause harm to your database. Do not do that. Here's a safe way to use this feature:
+- Create a `read-only` database user with access to your database
+  - Here's how to create a read-only user for a PostgreSQL database: [PostgreSQL guide](https://tableplus.com/blog/2018/04/postgresql-how-to-create-read-only-user.html)
+  - Here's how to create a read-only user for a MySQL database: [MySQL guide](https://ubiq.co/database-blog/create-read-only-mysql-user/)
+- Add a readonly database connection to your `config/database.php` file
+  ```php
+  // in database.php
+  
+  'connections' => [
+  
+    // ... your other connections
+  
+     'readonly' => [
+            'driver' => 'pgsql',  // Copy the settings for the driver you use, but change the user
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME_READONLY', 'forge'), // User is changed here
+            'password' => env('DB_PASSWORD_READONLY', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+  ]
+- In your .env set the following:
+  ```dotenv
+    MODEL_STATS_CUSTOM_CODE=true
+    MODEL_STATS_DB_CONNECTION=readonly
+    DB_USERNAME_READONLY=<username>
+    DB_PASSWORD_READONLY=<password>
+    ```
+Thanks to this, the package will use the readonly connection when executing your code. 
+Note that this a protection against mistakes, but not against malicious users. One can override this 
+connection in the custom code, so there are still some risks associate with using this feature in production.
+Be sure that your dashboard authorization is properly configured.
+
+### Disabling Custom Code
+You may want to disable custom code widgets by setting the `MODEL_STATS_CUSTOM_CODE` env variable to `false`.
 
 ## Dashboard Authorization
 

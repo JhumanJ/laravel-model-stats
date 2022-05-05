@@ -17,7 +17,7 @@ return [
     */
 
     'enabled'            => env('MODEL_STATS_ENABLED', true),
-    'allow_custom_code'  => env('MODEL_STATS_CUSTOM_CODE', true),
+    'allow_custom_code'  => env('MODEL_STATS_CUSTOM_CODE', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -44,6 +44,17 @@ return [
     |
     */
     'table_name'         => 'model_stats_dashboards',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Database connection
+    |--------------------------------------------------------------------------
+    |
+    | Database connection used to query the data.
+    | This can be used to ensure a read-only connection, by using a custom connection with a read-only user.
+    |
+    */
+    'query_database_connection'         => env('MODEL_STATS_DB_CONNECTION', env('DB_CONNECTION')),
 
     /*
     |--------------------------------------------------------------------------
