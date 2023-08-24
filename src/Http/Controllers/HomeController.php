@@ -2,15 +2,14 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Controllers;
 
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use ReflectionClass;
-use Schema;
 
 class HomeController extends Controller
 {
@@ -41,7 +40,7 @@ class HomeController extends Controller
 
                 return sprintf(
                     '\%s%s',
-                    Container::getInstance()->getNamespace(),
+                    app()->getNamespace(),
                     strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
                 );
             })
@@ -51,7 +50,7 @@ class HomeController extends Controller
                 if (class_exists($class)) {
                     $reflection = new ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class) &&
-                        ! $reflection->isAbstract();
+                        !$reflection->isAbstract();
                 }
 
                 return $valid;

@@ -37,7 +37,7 @@ class ModelStats
         }
 
         $data = $dataQuery->select([
-            DB::raw('DATE('.$dateFieldName.') as date'),
+            DB::raw('DATE(' . $dateFieldName . ') as date'),
             DB::raw('COUNT(*) as "count"'),
         ])->get()->pluck("count", "date");
 
@@ -86,7 +86,7 @@ class ModelStats
         DB::table($tableName)->where($dateFieldName, '>=', $from->startOfDay())
             ->where($dateFieldName, '<=', $to->endOfDay())
             ->groupBy($aggregateColumn)
-            ->select($aggregateColumn, DB::raw('count(*) as count'))
+            ->select([$aggregateColumn, DB::raw('count(*) as count')])
             ->get()
             ->each(function ($row) use (&$mapping, $aggregateColumn) {
                 $mapping[$row->{$aggregateColumn}] = $row->count;
@@ -106,11 +106,11 @@ class ModelStats
 
         foreach (array_reverse(range(0, $daysSince)) as $number) {
             $dateKey = $to->copy()->subDays($number)->format('Y-m-d');
-            if (! isset($data[$dateKey])) {
+            if (!isset($data[$dateKey])) {
                 $data[$dateKey] = $defaultValue;
             }
 
-            if (! is_null($cumulatedSum)) {
+            if (!is_null($cumulatedSum)) {
                 $data[$dateKey] += $cumulatedSum;
                 $cumulatedSum = $data[$dateKey];
             }
