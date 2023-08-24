@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats\Http\Middleware;
 
 class CustomCodeEnabled
@@ -8,10 +7,9 @@ class CustomCodeEnabled
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function handle($request, $next)
     {

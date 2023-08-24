@@ -39,7 +39,7 @@ class ModelStats
         $data = $dataQuery->select([
             DB::raw('DATE('.$dateFieldName.') as date'),
             DB::raw('COUNT(*) as "count"'),
-        ])->get()->pluck("count", "date");
+        ])->get()->pluck('count', 'date');
 
         $cumulatedSum = null;
         if ($cumulated) {
@@ -80,13 +80,13 @@ class ModelStats
         string $dateFieldName,
         string $aggregateColumn
     ): array {
-        $tableName = (new $this->class)->getTable();
+        $tableName = (new $this->class())->getTable();
 
         $mapping = [];
         DB::table($tableName)->where($dateFieldName, '>=', $from->startOfDay())
             ->where($dateFieldName, '<=', $to->endOfDay())
             ->groupBy($aggregateColumn)
-            ->select($aggregateColumn, DB::raw('count(*) as count'))
+            ->select([$aggregateColumn, DB::raw('count(*) as count')])
             ->get()
             ->each(function ($row) use (&$mapping, $aggregateColumn) {
                 $mapping[$row->{$aggregateColumn}] = $row->count;

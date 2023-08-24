@@ -2,7 +2,6 @@
 
 namespace Jhumanj\LaravelModelStats\Http\Requests\Widgets;
 
-use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
@@ -32,8 +31,6 @@ class DataRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -53,15 +50,18 @@ class DataRequest extends FormRequest
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
 
-                return sprintf('\%s%s', Container::getInstance()
-                                                 ->getNamespace(), strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
+                return sprintf(
+                    '\%s%s',
+                    app()->getNamespace(),
+                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
+                );
             })->filter(function ($class) {
                 $valid = false;
 
                 if (class_exists($class)) {
                     $reflection = new \ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class)
-                             && ! $reflection->isAbstract();
+                        && ! $reflection->isAbstract();
                 }
 
                 return $valid;

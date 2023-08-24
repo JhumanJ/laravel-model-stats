@@ -2,8 +2,8 @@
 
 namespace Jhumanj\LaravelModelStats\Database\Factories;
 
-use Jhumanj\LaravelModelStats\Models\Dashboard;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Jhumanj\LaravelModelStats\Models\Dashboard;
 
 class DashboardFactory extends Factory
 {
@@ -12,9 +12,9 @@ class DashboardFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'        => $this->faker->name,
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence,
-            'body'        => '{"widgets":[]}',
+            'body' => '{"widgets":[]}',
         ];
     }
 }

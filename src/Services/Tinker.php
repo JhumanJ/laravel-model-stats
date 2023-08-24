@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats\Services;
 
 use Carbon\Carbon;
@@ -21,15 +20,11 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * Taken from https://github.com/spatie/laravel-web-tinker/blob/master/src/Tinker.php
  *
  * Class Tinker
- * @package Jhumanj\LaravelModelStats\Services
  */
 class Tinker
 {
-
-    /** @var \Symfony\Component\Console\Output\BufferedOutput */
     protected BufferedOutput $output;
 
-    /** @var \Psy\Shell */
     protected Shell $shell;
 
     public function __construct()
@@ -56,8 +51,8 @@ class Tinker
             $lastException = $resultVars['_e'];
             if (($lastException instanceof QueryException)
                 && Str::of($lastException->getMessage())
-                      ->contains("SQLSTATE[42501]: Insufficient privilege")) {
-                return "For safety reasons, you can only query data with ModelStats. Write operations are forbidden.";
+                    ->contains('SQLSTATE[42501]: Insufficient privilege')) {
+                return 'For safety reasons, you can only query data with ModelStats. Write operations are forbidden.';
             }
         }
 

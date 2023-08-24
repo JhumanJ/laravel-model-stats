@@ -10,8 +10,6 @@ class ModelStatsServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -20,8 +18,6 @@ class ModelStatsServiceProvider extends ServiceProvider
 
     /**
      * Configure the ModelStats authorization services.
-     *
-     * @return void
      */
     protected function authorization(): void
     {
@@ -37,8 +33,6 @@ class ModelStatsServiceProvider extends ServiceProvider
      * Register the ModelStats gate.
      *
      * This gate determines who can access ModelStats in non-local environments.
-     *
-     * @return void
      */
     protected function gate(): void
     {

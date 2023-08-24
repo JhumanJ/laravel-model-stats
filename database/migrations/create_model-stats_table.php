@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-
+return new class() extends Migration
+{
     public function up(): void
     {
         Schema::create(Config::get('model-stats.table_name'), function (Blueprint $table) {

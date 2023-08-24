@@ -42,14 +42,12 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
 
     /**
      * Register the package's publishable resources.
-     *
-     * @return void
      */
     private function registerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../stubs/ModelStatsServiceProvider.stub' => app_path('Providers/ModelStatsServiceProvider.php'),
+                __DIR__.'/../stubs/ModelStatsServiceProvider.stub' => app_path('Providers/ModelStatsServiceProvider.php'),
             ], 'model-stats-provider');
 
             $this->publishes([
@@ -60,8 +58,6 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
 
     /**
      * Register the package's commands.
-     *
-     * @return void
      */
     protected function registerCommands(): void
     {
@@ -78,6 +74,6 @@ class LaravelModelStatsServiceProvider extends PackageServiceProvider
      */
     protected function loadMigrations(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 }
