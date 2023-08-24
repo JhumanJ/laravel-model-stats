@@ -50,12 +50,11 @@ class HomeController extends Controller
                 if (class_exists($class)) {
                     $reflection = new ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class) &&
-                        !$reflection->isAbstract();
+                        ! $reflection->isAbstract();
                 }
 
                 return $valid;
             });
-
 
         return $models->map(fn (string $class) => [
             'class' => $class,
@@ -65,6 +64,6 @@ class HomeController extends Controller
 
     private function getClassFields(string $class)
     {
-        return Schema::getColumnListing((new $class)->getTable());
+        return Schema::getColumnListing((new $class())->getTable());
     }
 }

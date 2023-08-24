@@ -39,7 +39,7 @@ class DashboardController extends Controller
         $dashboard->delete();
 
         return $this->success([
-           'message' => 'Dashboard deleted',
+            'message' => 'Dashboard deleted',
         ]);
     }
 }

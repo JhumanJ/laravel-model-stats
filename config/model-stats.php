@@ -16,8 +16,8 @@ return [
     |
     */
 
-    'enabled'            => env('MODEL_STATS_ENABLED', true),
-    'allow_custom_code'  => env('MODEL_STATS_CUSTOM_CODE', false),
+    'enabled' => env('MODEL_STATS_ENABLED', true),
+    'allow_custom_code' => env('MODEL_STATS_CUSTOM_CODE', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     | the existing middleware. Or, you can simply stick with this list.
     |
     */
-    'middleware'         => [
+    'middleware' => [
         'web',
         \Jhumanj\LaravelModelStats\Http\Middleware\Authorize::class,
     ],
@@ -43,7 +43,7 @@ return [
     | this configures the table name based on your connection.
     |
     */
-    'table_name'         => 'model_stats_dashboards',
+    'table_name' => 'model_stats_dashboards',
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     | This can be used to ensure a read-only connection, by using a custom connection with a read-only user.
     |
     */
-    'query_database_connection'         => env('MODEL_STATS_DB_CONNECTION', env('DB_CONNECTION')),
+    'query_database_connection' => env('MODEL_STATS_DB_CONNECTION', env('DB_CONNECTION')),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,6 +65,6 @@ return [
     | be starting the '/stats' prefix, and names will start with 'stats.'.
     |
     */
-    'routes_prefix'      => 'stats',
+    'routes_prefix' => 'stats',
     'route_names_prefix' => 'stats.',
 ];

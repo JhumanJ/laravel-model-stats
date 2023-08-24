@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Jhumanj\LaravelModelStats\Console;
 
 use Illuminate\Console\Command;
@@ -32,8 +31,6 @@ class InstallModelStatsPackage extends Command
 
     /**
      * Register the ModelStats service provider in the application configuration file.
-     *
-     * @return void
      */
     private function registerModelStatsServiceProvider(): void
     {

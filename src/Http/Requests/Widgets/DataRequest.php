@@ -31,8 +31,6 @@ class DataRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -63,7 +61,7 @@ class DataRequest extends FormRequest
                 if (class_exists($class)) {
                     $reflection = new \ReflectionClass($class);
                     $valid = $reflection->isSubclassOf(Model::class)
-                        && !$reflection->isAbstract();
+                        && ! $reflection->isAbstract();
                 }
 
                 return $valid;
